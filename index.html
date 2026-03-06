@@ -3,7 +3,7 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Dhikzx Cloud — Premium Store</title>
+    <title>Dhikzx Cloud — Simple Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
     <style>
@@ -49,7 +49,10 @@
         }
         .product-item { opacity: 0; animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
         .progress-container { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 15px; }
+        
+        /* Progress Bar sync dengan 5 detik */
         .progress-fill { height: 100%; background: linear-gradient(to right, #38bdf8, #818cf8); width: 100%; animation: progressRun 5s linear forwards; }
+        
         @keyframes progressRun { from { width: 100% } to { width: 0% } }
         .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .btn-primary { background: linear-gradient(135deg, #38bdf8, #2563eb); transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
@@ -86,7 +89,7 @@
 
     <script>
         /* =========================================
-           1. BAGIAN DATA (Edit Teks & Produk Di Sini)
+           1. BAGIAN DATA
            =========================================
         */
         const CONFIG_STORE = {
@@ -99,7 +102,7 @@
             rules: {
                 title: "Dhikzx Store Rules",
                 icon: "fa-shield-check",
-                footer: "Menutup otomatis dalam 5 detik",
+                duration: 5, // Durasi dalam detik
                 list: [
                     "No Refund jika server sudah dibuat",
                     "Dilarang melakukan DDoS dari panel",
@@ -149,32 +152,48 @@
         };
 
         /* =========================================
-           2. BAGIAN LOGIKA (Jangan diubah jika tidak perlu)
+           2. BAGIAN LOGIKA
            =========================================
         */
 
-        // Load Data Teks Awal
+        // Inisialisasi Teks
         document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">${CONFIG_STORE.header.badge}</span>`;
         document.getElementById('main-title').innerHTML = CONFIG_STORE.header.title;
         document.getElementById('sub-title').innerText = CONFIG_STORE.header.sub;
         document.getElementById('rules-title').innerText = CONFIG_STORE.rules.title;
-        document.getElementById('rules-footer').innerText = CONFIG_STORE.rules.footer;
         document.getElementById('rules-icon-container').innerHTML = `<i class="fa-solid ${CONFIG_STORE.rules.icon}"></i>`;
         document.getElementById('rules-content').innerHTML = CONFIG_STORE.rules.list.map((r, i) => `<p>${i+1}. ${r}</p>`).join('');
 
         const mainContent = document.getElementById('main-content');
         const navArea = document.getElementById('navigation-area');
         const subTitleElem = document.getElementById('sub-title');
+        const footerElem = document.getElementById('rules-footer');
 
-        // Modal Auto Close
+        // Modal Auto Close dengan Hitung Mundur (Countdown)
         window.onload = () => {
             const modal = document.getElementById('welcome-modal');
             const overlay = document.getElementById('modal-overlay');
+            
+            let timeLeft = CONFIG_STORE.rules.duration;
+            footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
+
+            // Interval untuk hitung mundur angka
+            const countdownInterval = setInterval(() => {
+                timeLeft--;
+                if (timeLeft >= 1) {
+                    footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
+                } else {
+                    clearInterval(countdownInterval);
+                }
+            }, 1000);
+
+            // Timeout untuk menutup modal
             setTimeout(() => {
                 modal.classList.add('modal-hide');
                 overlay.style.opacity = '0';
                 setTimeout(() => overlay.remove(), 600);
-            }, 5000);
+            }, CONFIG_STORE.rules.duration * 1000);
+
             renderCategories();
         };
 

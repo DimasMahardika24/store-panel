@@ -24,6 +24,17 @@
             min-height: 100vh;
         }
 
+        /* Animasi Modal */
+        #welcome-modal {
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+        }
+        
+        .modal-hide {
+            opacity: 0;
+            transform: translate(-50%, -60%) scale(0.9) !important;
+            pointer-events: none;
+        }
+
         .glass-card {
             background: rgba(30, 41, 59, 0.4);
             backdrop-filter: blur(16px);
@@ -31,16 +42,26 @@
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        .glass-card:hover {
-            border-color: rgba(56, 189, 248, 0.4);
-            background: rgba(30, 41, 59, 0.6);
-            transform: translateY(-5px);
-            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+        /* Style Progress Bar */
+        .progress-container {
+            width: 100%;
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
         }
 
-        .category-icon {
-            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.1));
-            border: 1px solid rgba(56, 189, 248, 0.2);
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, #38bdf8, #818cf8);
+            width: 100%;
+            animation: progressRun 3s linear forwards;
+        }
+
+        @keyframes progressRun {
+            from { width: 100%; }
+            to { width: 0%; }
         }
 
         .fade-in {
@@ -62,14 +83,31 @@
             background: linear-gradient(135deg, #38bdf8, #2563eb);
             transition: 0.3s;
         }
-        
-        .btn-primary:hover {
-            filter: brightness(1.1);
-            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
-        }
     </style>
 </head>
 <body class="pb-20">
+
+    <div id="modal-overlay" class="fixed inset-0 bg-black/60 backdrop-blur-sm z-[99] transition-opacity duration-500 opacity-100"></div>
+    
+    <div id="welcome-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md glass-card p-8 rounded-[2rem] border border-white/10 shadow-2xl">
+        <div class="text-center">
+            <div class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl text-blue-400 mx-auto mb-4">
+                <i class="fa-solid fa-shield-check"></i>
+            </div>
+            <h2 class="text-2xl font-bold mb-2">Dhikzx Store Rules</h2>
+            <p class="text-slate-400 text-sm leading-relaxed">
+                1. No Reffund jika server sudah dibuat.<br>
+                2. Dilarang melakukan DDoS dari panel.<br>
+                3. Garansi Full selama masa aktif.<br>
+                4. Order = Setuju dengan peraturan.
+            </p>
+            
+            <div class="progress-container">
+                <div class="progress-fill"></div>
+            </div>
+            <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest">Menutup otomatis dalam 3 detik</p>
+        </div>
+    </div>
 
     <header class="pt-16 pb-12 text-center">
         <h1 class="text-4xl font-extrabold tracking-tight mb-2">DHIKZX <span class="gradient-text">STORE</span></h1>
@@ -90,7 +128,18 @@
     <script>
         const waNumber = "6285810287828";
 
-        // DATA STORE
+        // Fungsi Tutup Modal Otomatis
+        window.onload = () => {
+            const modal = document.getElementById('welcome-modal');
+            const overlay = document.getElementById('modal-overlay');
+            
+            setTimeout(() => {
+                modal.classList.add('modal-hide');
+                overlay.style.opacity = '0';
+                setTimeout(() => overlay.remove(), 500); // Hapus overlay dari DOM
+            }, 3000); // 3 Detik
+        };
+
         const storeData = {
             "panel-bot": {
                 title: "Panel Bot",
@@ -135,15 +184,13 @@
         const navArea = document.getElementById('navigation-area');
         const subTitle = document.getElementById('sub-title');
 
-        // FUNGSI TAMPIL KATEGORI
         function renderCategories() {
             navArea.classList.add('hidden');
             subTitle.innerText = "Pilih kategori layanan untuk memulai";
             mainContent.className = "grid grid-cols-1 md:grid-cols-2 gap-6 fade-in";
-            
             mainContent.innerHTML = Object.keys(storeData).map(key => `
                 <div onclick="renderProducts('${key}')" class="glass-card rounded-3xl p-8 cursor-pointer flex items-center gap-6">
-                    <div class="category-icon w-16 h-16 rounded-2xl flex items-center justify-center text-2xl text-blue-400">
+                    <div class="category-icon w-16 h-16 rounded-2xl flex items-center justify-center text-2xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
                         <i class="fa-solid ${storeData[key].icon}"></i>
                     </div>
                     <div>
@@ -154,23 +201,21 @@
             `).join('');
         }
 
-        // FUNGSI TAMPIL PRODUK
         function renderProducts(categoryKey) {
             const category = storeData[categoryKey];
             navArea.classList.remove('hidden');
             subTitle.innerText = `Menampilkan produk untuk ${category.title}`;
             mainContent.className = "grid grid-cols-1 md:grid-cols-3 gap-6 fade-in";
-
             mainContent.innerHTML = category.products.map(p => `
                 <div class="glass-card rounded-3xl p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30">
                     <div>
-                        <div class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-2">${category.title}</div>
-                        <h3 class="text-xl font-bold text-white mb-2">${p.name}</h3>
-                        <p class="text-slate-400 text-sm mb-6 pb-4 border-b border-white/5">${p.spec}</p>
+                        <div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-2">${category.title}</div>
+                        <h3 class="text-lg font-bold text-white mb-2">${p.name}</h3>
+                        <p class="text-slate-400 text-xs mb-6 pb-4 border-b border-white/5">${p.spec}</p>
                     </div>
                     <div>
-                        <div class="text-2xl font-bold text-white mb-4">${p.price}</div>
-                        <button onclick="buyViaWA('${p.name}', '${category.title}', '${p.price}')" class="btn-primary w-full py-3 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2">
+                        <div class="text-xl font-bold text-white mb-4">${p.price}</div>
+                        <button onclick="buyViaWA('${p.name}', '${category.title}', '${p.price}')" class="btn-primary w-full py-3 rounded-xl font-bold text-white text-xs flex items-center justify-center gap-2">
                             <i class="fa-brands fa-whatsapp text-lg"></i>
                             Beli Sekarang
                         </button>
@@ -184,7 +229,6 @@
             window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        // Jalankan saat start
         renderCategories();
     </script>
 </body>

@@ -31,108 +31,48 @@
         ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 10px; }
         ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
 
-        /* Welcome Modal */
-        #welcome-modal {
-            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        
-        .modal-hide {
-            opacity: 0;
-            transform: translate(-50%, -60%) scale(0.9) !important;
-            pointer-events: none;
-        }
-
+        /* Modal & Glassmorphism */
+        #welcome-modal { transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
+        .modal-hide { opacity: 0; transform: translate(-50%, -60%) scale(0.9) !important; pointer-events: none; }
         .glass-card {
             background: rgba(30, 41, 59, 0.4);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
+        .glass-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-5px); }
 
-        .glass-card:hover {
-            border-color: rgba(56, 189, 248, 0.4);
-            transform: translateY(-5px);
-        }
-
-        /* Staggered Animation for Items */
+        /* Animations */
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
-
-        .product-item {
-            opacity: 0;
-            animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards;
-        }
-
-        /* Progress Bar */
-        .progress-container {
-            width: 100%;
-            height: 4px;
-            background: rgba(255,255,255,0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 15px;
-        }
-
-        .progress-fill {
-            height: 100%;
-            background: linear-gradient(to right, #38bdf8, #818cf8);
-            width: 100%;
-            animation: progressRun 3s linear forwards;
-        }
-
-        @keyframes progressRun {
-            from { width: 100%; }
-            to { width: 0%; }
-        }
-
-        .gradient-text {
-            background: linear-gradient(to right, #38bdf8, #818cf8);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, #38bdf8, #2563eb);
-            transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-
+        .product-item { opacity: 0; animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
+        .progress-container { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 15px; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, #38bdf8, #818cf8); width: 100%; animation: progressRun 5s linear forwards; }
+        @keyframes progressRun { from { width: 100% } to { width: 0% } }
+        .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-primary { background: linear-gradient(135deg, #38bdf8, #2563eb); transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
         .btn-primary:active { transform: scale(0.95); }
     </style>
 </head>
 <body class="pb-20">
 
     <div id="modal-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-md z-[99] transition-opacity duration-500 opacity-100"></div>
-    
     <div id="welcome-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md glass-card p-8 rounded-[2.5rem] border border-white/10 shadow-2xl">
         <div class="text-center">
-            <div class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl text-blue-400 mx-auto mb-4">
-                <i class="fa-solid fa-shield-check"></i>
-            </div>
-            <h2 class="text-2xl font-bold mb-2">Dhikzx Store Rules</h2>
-            <div class="text-slate-400 text-sm leading-relaxed space-y-1 mb-4">
-                <p>1. No Refund jika server sudah dibuat</p>
-                <p>2. Dilarang melakukan DDoS dari panel</p>
-                <p>3. Garansi Full selama masa aktif</p>
-                <p>4. Order = Setuju dengan peraturan</p>
-            </div>
-            
-            <div class="progress-container">
-                <div class="progress-fill"></div>
-            </div>
-            <p class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest font-bold">Menutup otomatis dalam 3 detik</p>
+            <div id="rules-icon-container" class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl text-blue-400 mx-auto mb-4"></div>
+            <h2 id="rules-title" class="text-2xl font-bold mb-2 text-white"></h2>
+            <div id="rules-content" class="text-slate-400 text-sm leading-relaxed space-y-1 mb-4"></div>
+            <div class="progress-container"><div class="progress-fill"></div></div>
+            <p id="rules-footer" class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest font-bold"></p>
         </div>
     </div>
 
     <header class="pt-16 pb-12 text-center">
-        <div class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 product-item">
-            <span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">Premium Cloud Service</span>
-        </div>
-        <h1 class="text-4xl font-extrabold tracking-tight mb-2 product-item" style="animation-delay: 100ms">
-            DHIKZX <span class="gradient-text">STORE</span>
-        </h1>
-        <p id="sub-title" class="text-slate-500 text-sm product-item" style="animation-delay: 200ms">Pilih kategori layanan untuk memulai</p>
+        <div id="header-badge-container" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 product-item"></div>
+        <h1 id="main-title" class="text-4xl font-extrabold tracking-tight mb-2 product-item" style="animation-delay: 100ms"></h1>
+        <p id="sub-title" class="text-slate-500 text-sm product-item" style="animation-delay: 200ms"></p>
     </header>
 
     <main class="container mx-auto px-6 max-w-5xl">
@@ -141,94 +81,129 @@
                 <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali ke Kategori
             </button>
         </div>
-
-        <div id="main-content" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            </div>
+        <div id="main-content" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
     </main>
 
     <script>
-        const waNumber = "6285810287828";
+        /* =========================================
+           1. BAGIAN DATA (Edit Teks & Produk Di Sini)
+           =========================================
+        */
+        const CONFIG_STORE = {
+            waNumber: "6285810287828",
+            header: {
+                badge: "Premium Cloud Service",
+                title: "DHIKZX <span class='gradient-text'>STORE</span>",
+                sub: "Pilih kategori layanan untuk memulai"
+            },
+            rules: {
+                title: "Dhikzx Store Rules",
+                icon: "fa-shield-check",
+                footer: "Menutup otomatis dalam 5 detik",
+                list: [
+                    "No Refund jika server sudah dibuat",
+                    "Dilarang melakukan DDoS dari panel",
+                    "Garansi Full selama masa aktif",
+                    "Order = Setuju dengan peraturan"
+                ]
+            },
+            categories: {
+                "panel-bot": {
+                    title: "Panel Bot",
+                    icon: "fa-server",
+                    desc: "Hosting bot 24/7 anti suspend.",
+                    products: [
+                        { name: "Starter Panel", spec: "RAM 2GB | CPU 100%", price: "Rp 5.000" },
+                        { name: "Medium Panel", spec: "RAM 4GB | CPU 150%", price: "Rp 10.000" },
+                        { name: "Extreme Panel", spec: "RAM UNLIMITED | CPU 200%", price: "Rp 25.000" }
+                    ]
+                },
+                "script-bot": {
+                    title: "Script Bot",
+                    icon: "fa-code",
+                    desc: "Script siap pakai, no error.",
+                    products: [
+                        { name: "Script Pushkontak", spec: "Fitur v15 Terbaru", price: "Rp 15.000" },
+                        { name: "Script Bot RPG", spec: "Full Game & Fitur", price: "Rp 30.000" }
+                    ]
+                },
+                "sewa-bot": {
+                    title: "Sewa Bot",
+                    icon: "fa-robot",
+                    desc: "Bot masuk ke grup kamu.",
+                    products: [
+                        { name: "Sewa 1 Bulan", spec: "1 Grup + Fitur Premium", price: "Rp 10.000" },
+                        { name: "Sewa Permanen", spec: "Unlimited Time", price: "Rp 35.000" }
+                    ]
+                },
+                "jasa-fix": {
+                    title: "Jasa Fix Bot",
+                    icon: "fa-tools",
+                    desc: "Benerin error script bot kamu.",
+                    products: [
+                        { name: "Fix Error Ringan", spec: "Pengerjaan 10-30 Menit", price: "Rp 5.000" },
+                        { name: "Fix Error Logic", spec: "Pengerjaan 1-3 Jam", price: "Rp 15.000" }
+                    ]
+                }
+            }
+        };
 
-        // Auto Close Modal
+        /* =========================================
+           2. BAGIAN LOGIKA (Jangan diubah jika tidak perlu)
+           =========================================
+        */
+
+        // Load Data Teks Awal
+        document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">${CONFIG_STORE.header.badge}</span>`;
+        document.getElementById('main-title').innerHTML = CONFIG_STORE.header.title;
+        document.getElementById('sub-title').innerText = CONFIG_STORE.header.sub;
+        document.getElementById('rules-title').innerText = CONFIG_STORE.rules.title;
+        document.getElementById('rules-footer').innerText = CONFIG_STORE.rules.footer;
+        document.getElementById('rules-icon-container').innerHTML = `<i class="fa-solid ${CONFIG_STORE.rules.icon}"></i>`;
+        document.getElementById('rules-content').innerHTML = CONFIG_STORE.rules.list.map((r, i) => `<p>${i+1}. ${r}</p>`).join('');
+
+        const mainContent = document.getElementById('main-content');
+        const navArea = document.getElementById('navigation-area');
+        const subTitleElem = document.getElementById('sub-title');
+
+        // Modal Auto Close
         window.onload = () => {
             const modal = document.getElementById('welcome-modal');
             const overlay = document.getElementById('modal-overlay');
-            
             setTimeout(() => {
                 modal.classList.add('modal-hide');
                 overlay.style.opacity = '0';
                 setTimeout(() => overlay.remove(), 600);
-            }, 3000);
+            }, 5000);
+            renderCategories();
         };
-
-        const storeData = {
-            "panel-bot": {
-                title: "Panel Bot",
-                icon: "fa-server",
-                desc: "Hosting bot 24/7 anti suspend.",
-                products: [
-                    { name: "Starter Panel", spec: "RAM 2GB | CPU 100%", price: "Rp 5.000" },
-                    { name: "Medium Panel", spec: "RAM 4GB | CPU 150%", price: "Rp 10.000" },
-                    { name: "Extreme Panel", spec: "RAM UNLIMITED | CPU 200%", price: "Rp 25.000" }
-                ]
-            },
-            "script-bot": {
-                title: "Script Bot",
-                icon: "fa-code",
-                desc: "Script siap pakai, no error.",
-                products: [
-                    { name: "Script Pushkontak", spec: "Fitur v15 Terbaru", price: "Rp 15.000" },
-                    { name: "Script Bot RPG", spec: "Full Game & Fitur", price: "Rp 30.000" }
-                ]
-            },
-            "sewa-bot": {
-                title: "Sewa Bot",
-                icon: "fa-robot",
-                desc: "Bot masuk ke grup kamu.",
-                products: [
-                    { name: "Sewa 1 Bulan", spec: "1 Grup + Fitur Premium", price: "Rp 10.000" },
-                    { name: "Sewa Permanen", spec: "Unlimited Time", price: "Rp 35.000" }
-                ]
-            },
-            "jasa-fix": {
-                title: "Jasa Fix Bot",
-                icon: "fa-tools",
-                desc: "Benerin error script bot kamu.",
-                products: [
-                    { name: "Fix Error Ringan", spec: "Pengerjaan 10-30 Menit", price: "Rp 5.000" },
-                    { name: "Fix Error Logic/Struktur", spec: "Pengerjaan 1-3 Jam", price: "Rp 15.000" }
-                ]
-            }
-        };
-
-        const mainContent = document.getElementById('main-content');
-        const navArea = document.getElementById('navigation-area');
-        const subTitle = document.getElementById('sub-title');
 
         function renderCategories() {
             navArea.classList.add('hidden');
-            subTitle.innerText = "Pilih kategori layanan untuk memulai";
+            subTitleElem.innerText = CONFIG_STORE.header.sub;
             mainContent.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
             
-            mainContent.innerHTML = Object.keys(storeData).map((key, index) => `
+            mainContent.innerHTML = Object.keys(CONFIG_STORE.categories).map((key, index) => {
+                const cat = CONFIG_STORE.categories[key];
+                return `
                 <div onclick="renderProducts('${key}')" 
                      class="product-item glass-card rounded-[2rem] p-8 cursor-pointer flex items-center gap-6"
                      style="animation-delay: ${index * 100}ms">
                     <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
-                        <i class="fa-solid ${storeData[key].icon}"></i>
+                        <i class="fa-solid ${cat.icon}"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-bold text-white">${storeData[key].title}</h3>
-                        <p class="text-slate-400 text-sm">${storeData[key].desc}</p>
+                        <h3 class="text-xl font-bold text-white">${cat.title}</h3>
+                        <p class="text-slate-400 text-sm">${cat.desc}</p>
                     </div>
-                </div>
-            `).join('');
+                </div>`;
+            }).join('');
         }
 
         function renderProducts(categoryKey) {
-            const category = storeData[categoryKey];
+            const category = CONFIG_STORE.categories[categoryKey];
             navArea.classList.remove('hidden');
-            subTitle.innerText = `Menampilkan produk untuk ${category.title}`;
+            subTitleElem.innerText = `Menampilkan produk untuk ${category.title}`;
             mainContent.className = "grid grid-cols-1 md:grid-cols-3 gap-6";
 
             mainContent.innerHTML = category.products.map((p, index) => `
@@ -247,17 +222,13 @@
                             Beli Sekarang
                         </button>
                     </div>
-                </div>
-            `).join('');
+                </div>`).join('');
         }
 
         function buyViaWA(name, cat, price) {
             const msg = `Halo Dhikzx Store, saya mau order:\n\n📦 Kategori: *${cat}*\n🚀 Produk: *${name}*\n💰 Harga: *${price}*\n\nMohon instruksi pembayarannya.`;
-            window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            window.open(`https://wa.me/${CONFIG_STORE.waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
         }
-
-        // Start
-        renderCategories();
     </script>
 </body>
 </html>

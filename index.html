@@ -9,35 +9,47 @@
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
         
+        :root {
+            --bg-deep: #0a0f1a;
+            --accent: #38bdf8;
+        }
+
         body { 
-            background: #0f172a; 
+            background: var(--bg-deep); 
             color: #f8fafc; 
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-image: radial-gradient(circle at top right, #1e293b, #0f172a);
+            background-image: 
+                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.08) 0%, transparent 25%);
             min-height: 100vh;
         }
 
         .glass-card {
-            background: rgba(30, 41, 59, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            background: rgba(30, 41, 59, 0.4);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
         .glass-card:hover {
-            transform: translateY(-10px);
-            border-color: #38bdf8;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3), 0 0 20px rgba(56, 189, 248, 0.2);
+            border-color: rgba(56, 189, 248, 0.4);
+            background: rgba(30, 41, 59, 0.6);
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
         }
 
-        .btn-wa {
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            transition: all 0.2s;
+        .category-icon {
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.1), rgba(129, 140, 248, 0.1));
+            border: 1px solid rgba(56, 189, 248, 0.2);
         }
 
-        .btn-wa:hover {
-            transform: scale(1.05);
-            box-shadow: 0 0 15px rgba(34, 197, 94, 0.4);
+        .fade-in {
+            animation: fadeIn 0.5s ease-out forwards;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         .gradient-text {
@@ -45,69 +57,120 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #38bdf8, #2563eb);
+            transition: 0.3s;
+        }
+        
+        .btn-primary:hover {
+            filter: brightness(1.1);
+            box-shadow: 0 0 20px rgba(37, 99, 235, 0.4);
+        }
     </style>
 </head>
 <body class="pb-20">
 
-    <header class="py-10 text-center">
-        <div class="inline-block p-2 px-4 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4">
-            <span class="text-blue-400 text-xs font-bold tracking-widest uppercase">Premium Cloud Provider</span>
-        </div>
-        <h1 class="text-4xl md:text-5xl font-extrabold mb-2">Dhikzx <span class="gradient-text">Cloud</span></h1>
-        <p class="text-slate-400 text-sm md:text-base">Panel Pterodactyl Murah, Cepat, dan Anti-Suspend.</p>
+    <header class="pt-16 pb-12 text-center">
+        <h1 class="text-4xl font-extrabold tracking-tight mb-2">DHIKZX <span class="gradient-text">STORE</span></h1>
+        <p id="sub-title" class="text-slate-500 text-sm">Pilih kategori layanan untuk memulai</p>
     </header>
 
-    <main class="container mx-auto px-4">
-        <div id="product-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <main class="container mx-auto px-6 max-w-5xl">
+        <div id="navigation-area" class="mb-8 hidden">
+            <button onclick="renderCategories()" class="flex items-center gap-2 text-slate-400 hover:text-white transition">
+                <i class="fa-solid fa-arrow-left"></i> Kembali ke Kategori
+            </button>
+        </div>
+
+        <div id="main-content" class="grid grid-cols-1 md:grid-cols-2 gap-6">
             </div>
     </main>
 
-    <footer class="mt-20 text-center text-slate-500 text-sm">
-        <p>&copy; 2026 DhikzxCloud. Built with ❤️ by Dimas.</p>
-    </footer>
-
     <script>
-        // DATA PRODUK (Edit di sini jika mau tambah/ubah)
-        const products = [
-            { id: 1, name: 'Standard Node', ram: '2GB', cpu: '100%', disk: '5GB', price: 'Rp 5.000' },
-            { id: 2, name: 'Reguler Node', ram: '3GB', cpu: '150%', disk: '10GB', price: 'Rp 9.000' },
-            { id: 3, name: 'Luxury Node', ram: '4GB', cpu: '150%', disk: '15GB', price: 'Rp 15.000' },
-            { id: 4, name: 'Supreme Node', ram: '6GB', cpu: '200%', disk: '20GB', price: 'Rp 20.000' },
-            { id: 5, name: 'Visionary Node', ram: '8GB', cpu: '250%', disk: '30GB', price: 'Rp 25.000' },
-            { id: 6, name: 'Ultimate Node', ram: 'UNLI', cpu: '300%', disk: '50GB', price: 'Rp 40.000' },
-        ];
+        const waNumber = "6285810287828";
 
-        const waNumber = "6285810287828"; // Ganti dengan nomor WA kamu
+        // DATA STORE
+        const storeData = {
+            "panel-bot": {
+                title: "Panel Bot",
+                icon: "fa-server",
+                desc: "Hosting bot 24/7 anti suspend.",
+                products: [
+                    { name: "Starter Panel", spec: "RAM 2GB | CPU 100%", price: "Rp 5.000" },
+                    { name: "Medium Panel", spec: "RAM 4GB | CPU 150%", price: "Rp 10.000" },
+                    { name: "Extreme Panel", spec: "RAM UNLIMITED | CPU 200%", price: "Rp 25.000" }
+                ]
+            },
+            "script-bot": {
+                title: "Script Bot",
+                icon: "fa-code",
+                desc: "Script siap pakai, no error.",
+                products: [
+                    { name: "Script Pushkontak", spec: "Fitur v15 Terbaru", price: "Rp 15.000" },
+                    { name: "Script Bot RPG", spec: "Full Game & Fitur", price: "Rp 30.000" }
+                ]
+            },
+            "sewa-bot": {
+                title: "Sewa Bot",
+                icon: "fa-robot",
+                desc: "Bot masuk ke grup kamu.",
+                products: [
+                    { name: "Sewa 1 Bulan", spec: "1 Grup + Fitur Premium", price: "Rp 10.000" },
+                    { name: "Sewa Permanen", spec: "Unlimited Time", price: "Rp 35.000" }
+                ]
+            },
+            "jasa-fix": {
+                title: "Jasa Fix Bot",
+                icon: "fa-tools",
+                desc: "Benerin error script bot kamu.",
+                products: [
+                    { name: "Fix Error Ringan", spec: "Pengerjaan 10-30 Menit", price: "Rp 5.000" },
+                    { name: "Fix Error Logic/Struktur", spec: "Pengerjaan 1-3 Jam", price: "Rp 15.000" }
+                ]
+            }
+        };
 
-        function renderProducts() {
-            const container = document.getElementById('product-list');
-            container.innerHTML = products.map(p => `
-                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between">
-                    <div>
-                        <div class="flex justify-between items-start mb-4">
-                            <h3 class="text-xl font-bold text-white">${p.name}</h3>
-                            <span class="bg-blue-500/20 text-blue-400 text-[10px] px-2 py-1 rounded-lg font-bold">READY</span>
-                        </div>
-                        
-                        <div class="space-y-3 mb-6">
-                            <div class="flex items-center text-slate-300">
-                                <i class="fa-solid fa-microchip w-6 text-blue-400"></i>
-                                <span class="text-sm">CPU: ${p.cpu}</span>
-                            </div>
-                            <div class="flex items-center text-slate-300">
-                                <i class="fa-solid fa-memory w-6 text-blue-400"></i>
-                                <span class="text-sm">RAM: ${p.ram}</span>
-                            </div>
-                            <div class="flex items-center text-slate-300">
-                                <i class="fa-solid fa-hard-drive w-6 text-blue-400"></i>
-                                <span class="text-sm">Disk: ${p.disk}</span>
-                            </div>
-                        </div>
+        const mainContent = document.getElementById('main-content');
+        const navArea = document.getElementById('navigation-area');
+        const subTitle = document.getElementById('sub-title');
+
+        // FUNGSI TAMPIL KATEGORI
+        function renderCategories() {
+            navArea.classList.add('hidden');
+            subTitle.innerText = "Pilih kategori layanan untuk memulai";
+            mainContent.className = "grid grid-cols-1 md:grid-cols-2 gap-6 fade-in";
+            
+            mainContent.innerHTML = Object.keys(storeData).map(key => `
+                <div onclick="renderProducts('${key}')" class="glass-card rounded-3xl p-8 cursor-pointer flex items-center gap-6">
+                    <div class="category-icon w-16 h-16 rounded-2xl flex items-center justify-center text-2xl text-blue-400">
+                        <i class="fa-solid ${storeData[key].icon}"></i>
                     </div>
-
                     <div>
-                        <div class="text-2xl font-bold mb-4 text-white">${p.price}<span class="text-xs text-slate-500 font-normal"> /bulan</span></div>
-                        <button onclick="buyViaWA('${p.name}', '${p.price}')" class="btn-wa w-full py-3 rounded-xl font-bold text-white flex items-center justify-center gap-2">
+                        <h3 class="text-xl font-bold text-white">${storeData[key].title}</h3>
+                        <p class="text-slate-400 text-sm">${storeData[key].desc}</p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // FUNGSI TAMPIL PRODUK
+        function renderProducts(categoryKey) {
+            const category = storeData[categoryKey];
+            navArea.classList.remove('hidden');
+            subTitle.innerText = `Menampilkan produk untuk ${category.title}`;
+            mainContent.className = "grid grid-cols-1 md:grid-cols-3 gap-6 fade-in";
+
+            mainContent.innerHTML = category.products.map(p => `
+                <div class="glass-card rounded-3xl p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30">
+                    <div>
+                        <div class="text-xs font-bold text-blue-400 uppercase tracking-widest mb-2">${category.title}</div>
+                        <h3 class="text-xl font-bold text-white mb-2">${p.name}</h3>
+                        <p class="text-slate-400 text-sm mb-6 pb-4 border-b border-white/5">${p.spec}</p>
+                    </div>
+                    <div>
+                        <div class="text-2xl font-bold text-white mb-4">${p.price}</div>
+                        <button onclick="buyViaWA('${p.name}', '${category.title}', '${p.price}')" class="btn-primary w-full py-3 rounded-xl font-bold text-white text-sm flex items-center justify-center gap-2">
                             <i class="fa-brands fa-whatsapp text-lg"></i>
                             Beli Sekarang
                         </button>
@@ -116,13 +179,13 @@
             `).join('');
         }
 
-        function buyViaWA(name, price) {
-            const message = `Halo Dhikzx Cloud, saya ingin order:\n\n🚀 Produk: *${name}*\n💰 Harga: *${price}*\n\nMohon instruksi selanjutnya untuk pembayaran.`;
-            const url = `https://wa.me/${waNumber}?text=${encodeURIComponent(message)}`;
-            window.open(url, '_blank');
+        function buyViaWA(name, cat, price) {
+            const msg = `Halo Dhikzx Store, saya mau order:\n\n📦 Kategori: *${cat}*\n🚀 Produk: *${name}*\n💰 Harga: *${price}*\n\nMohon instruksi pembayarannya.`;
+            window.open(`https://wa.me/${waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
         }
 
-        renderProducts();
+        // Jalankan saat start
+        renderCategories();
     </script>
 </body>
 </html>

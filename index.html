@@ -49,14 +49,15 @@
         }
         .product-item { opacity: 0; animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
         .progress-container { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 15px; }
-        
-        /* Progress Bar sync dengan 5 detik */
         .progress-fill { height: 100%; background: linear-gradient(to right, #38bdf8, #818cf8); width: 100%; animation: progressRun 5s linear forwards; }
         
         @keyframes progressRun { from { width: 100% } to { width: 0% } }
         .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .btn-primary { background: linear-gradient(135deg, #38bdf8, #2563eb); transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
         .btn-primary:active { transform: scale(0.95); }
+
+        /* Extra Style untuk Badge Klik */
+        #header-badge-container { cursor: pointer; user-select: none; }
     </style>
 </head>
 <body class="pb-20">
@@ -73,7 +74,7 @@
     </div>
 
     <header class="pt-16 pb-12 text-center">
-        <div id="header-badge-container" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 product-item"></div>
+        <div id="header-badge-container" onclick="renderProducts('dev-menu')" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 product-item transition-all active:scale-95 hover:bg-blue-500/20"></div>
         <h1 id="main-title" class="text-4xl font-extrabold tracking-tight mb-2 product-item" style="animation-delay: 100ms"></h1>
         <p id="sub-title" class="text-slate-500 text-sm product-item" style="animation-delay: 200ms"></p>
     </header>
@@ -88,10 +89,6 @@
     </main>
 
     <script>
-        /* =========================================
-           1. BAGIAN DATA
-           =========================================
-        */
         const CONFIG_STORE = {
             waNumber: "6285810287828",
             header: {
@@ -102,7 +99,7 @@
             rules: {
                 title: "Dhikzx Store Rules",
                 icon: "fa-shield-check",
-                duration: 5, // Durasi dalam detik
+                duration: 5,
                 list: [
                     "No Refund jika server sudah dibuat",
                     "Dilarang melakukan DDoS dari panel",
@@ -147,14 +144,20 @@
                         { name: "Fix Error Ringan", spec: "Pengerjaan 10-30 Menit", price: "Rp 5.000" },
                         { name: "Fix Error Logic", spec: "Pengerjaan 1-3 Jam", price: "Rp 15.000" }
                     ]
+                },
+                // INI JENDELA PENGEMBANG (Easter Egg)
+                "dev-menu": {
+                    title: "Jendela Pengembang",
+                    icon: "fa-code-branch",
+                    desc: "Akses cepat informasi bantuan dan kontak.",
+                    products: [
+                        { name: "FAQ", spec: "Pertanyaan yang sering diajukan", price: "Bantuan", type: "link", url: "#" },
+                        { name: "Contact", spec: "Hubungi Admin secara langsung", price: "Support", type: "link", url: "https://wa.me/6285810287828" },
+                        { name: "Testimoni", spec: "Lihat bukti kepuasan pelanggan", price: "Trust", type: "link", url: "#" }
+                    ]
                 }
             }
         };
-
-        /* =========================================
-           2. BAGIAN LOGIKA
-           =========================================
-        */
 
         // Inisialisasi Teks
         document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">${CONFIG_STORE.header.badge}</span>`;
@@ -169,25 +172,18 @@
         const subTitleElem = document.getElementById('sub-title');
         const footerElem = document.getElementById('rules-footer');
 
-        // Modal Auto Close dengan Hitung Mundur (Countdown)
         window.onload = () => {
             const modal = document.getElementById('welcome-modal');
             const overlay = document.getElementById('modal-overlay');
-            
             let timeLeft = CONFIG_STORE.rules.duration;
             footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
 
-            // Interval untuk hitung mundur angka
             const countdownInterval = setInterval(() => {
                 timeLeft--;
-                if (timeLeft >= 1) {
-                    footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
-                } else {
-                    clearInterval(countdownInterval);
-                }
+                if (timeLeft >= 1) footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
+                else clearInterval(countdownInterval);
             }, 1000);
 
-            // Timeout untuk menutup modal
             setTimeout(() => {
                 modal.classList.add('modal-hide');
                 overlay.style.opacity = '0';
@@ -202,7 +198,10 @@
             subTitleElem.innerText = CONFIG_STORE.header.sub;
             mainContent.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
             
-            mainContent.innerHTML = Object.keys(CONFIG_STORE.categories).map((key, index) => {
+            // Render semua kategori kecuali 'dev-menu' biar tersembunyi
+            mainContent.innerHTML = Object.keys(CONFIG_STORE.categories)
+            .filter(key => key !== 'dev-menu')
+            .map((key, index) => {
                 const cat = CONFIG_STORE.categories[key];
                 return `
                 <div onclick="renderProducts('${key}')" 
@@ -222,10 +221,18 @@
         function renderProducts(categoryKey) {
             const category = CONFIG_STORE.categories[categoryKey];
             navArea.classList.remove('hidden');
-            subTitleElem.innerText = `Menampilkan produk untuk ${category.title}`;
+            subTitleElem.innerText = `Menampilkan ${category.title}`;
             mainContent.className = "grid grid-cols-1 md:grid-cols-3 gap-6";
 
-            mainContent.innerHTML = category.products.map((p, index) => `
+            mainContent.innerHTML = category.products.map((p, index) => {
+                // Logika tombol: Jika tipe link, buka URL. Jika tidak, buka WA order.
+                const action = p.type === "link" 
+                    ? `window.open('${p.url}', '_blank')` 
+                    : `buyViaWA('${p.name}', '${category.title}', '${p.price}')`;
+                const btnIcon = p.type === "link" ? "fa-arrow-up-right-from-square" : "fa-brands fa-whatsapp";
+                const btnText = p.type === "link" ? "Buka Halaman" : "Beli Sekarang";
+
+                return `
                 <div class="product-item glass-card rounded-[2rem] p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30"
                      style="animation-delay: ${index * 100}ms">
                     <div>
@@ -235,13 +242,14 @@
                     </div>
                     <div>
                         <div class="text-2xl font-bold text-white mb-5">${p.price}</div>
-                        <button onclick="buyViaWA('${p.name}', '${category.title}', '${p.price}')" 
+                        <button onclick="${action}" 
                                 class="btn-primary w-full py-3.5 rounded-2xl font-bold text-white text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
-                            <i class="fa-brands fa-whatsapp text-lg"></i>
-                            Beli Sekarang
+                            <i class="fa-solid ${btnIcon} text-lg"></i>
+                            ${btnText}
                         </button>
                     </div>
-                </div>`).join('');
+                </div>`;
+            }).join('');
         }
 
         function buyViaWA(name, cat, price) {

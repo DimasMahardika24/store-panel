@@ -42,14 +42,17 @@
         }
         .glass-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-5px); }
 
-        /* Smooth Transition for Blur Effect */
-        #main-content, header {
-            transition: all 0.8s ease;
+        /* Smooth Transition for Blur Effect (Desktop Friendly) */
+        #main-content, #main-header {
+            transition: filter 0.8s ease, opacity 0.8s ease, transform 0.8s ease;
+            will-change: filter, opacity;
         }
+        
+        /* Level blur dikurangi dikit biar gak terlalu pusing di layar gede */
         .focus-mode {
-            filter: blur(10px);
-            opacity: 0.2;
-            transform: scale(0.95);
+            filter: blur(8px);
+            opacity: 0.15;
+            transform: scale(0.98);
             pointer-events: none;
         }
 
@@ -88,65 +91,65 @@
 
     <header id="main-header" class="pt-16 pb-12 text-center">
         <div id="header-badge-container" onclick="renderProducts('dev-menu')" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 product-item transition-all active:scale-95 hover:bg-blue-500/20"></div>
-        <h1 id="main-title" class="text-4xl font-extrabold tracking-tight mb-2 product-item" style="animation-delay: 100ms"></h1>
-        <p id="sub-title" class="text-slate-500 text-sm product-item" style="animation-delay: 200ms"></p>
+        <h1 id="main-title" class="text-4xl lg:text-6xl font-extrabold tracking-tight mb-2 product-item" style="animation-delay: 100ms"></h1>
+        <p id="sub-title" class="text-slate-500 text-sm lg:text-base product-item" style="animation-delay: 200ms"></p>
     </header>
 
-    <main class="container mx-auto px-6 max-w-5xl">
+    <main class="container mx-auto px-6 max-w-6xl">
         <div id="navigation-area" class="mb-8 hidden">
             <button onclick="renderCategories()" class="flex items-center gap-2 text-slate-400 hover:text-white transition-all group">
                 <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali ke Kategori
             </button>
         </div>
         
-        <div id="main-content" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
+        <div id="main-content" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
 
         <div id="dashboard-extras" class="hidden">
             
             <div id="trigger-section" class="mt-40 mb-20 product-item" style="animation-delay: 400ms">
-                <div class="text-center mb-16 max-w-2xl mx-auto px-4">
-                    <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
+                <div class="text-center mb-16 max-w-3xl mx-auto px-4">
+                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
                     <p class="text-slate-400 text-base md:text-lg">Infrastruktur kelas enterprise dengan harga terjangkau untuk kebutuhan bot kamu.</p>
                 </div>
                 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
-                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
+                    <div class="glass-card rounded-[2.5rem] p-8 lg:p-10 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
+                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
                             <i class="fa-solid fa-microchip"></i>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white mb-3">Optimized CPU</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">Resource prosesor terisolasi menjamin performa maksimal tanpa gangguan tetangga. Bot kamu tetap responsif.</p>
+                            <p class="text-slate-400 text-sm lg:text-base leading-relaxed">Resource prosesor terisolasi menjamin performa maksimal tanpa gangguan tetangga. Bot kamu tetap responsif.</p>
                         </div>
                     </div>
 
-                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
-                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                    <div class="glass-card rounded-[2.5rem] p-8 lg:p-10 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
+                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white mb-3">Sewa Bot Praktis</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">Tanpa ribet instalasi. Cukup sewa, bot otomatis masuk ke grup kamu dengan fitur premium siap pakai.</p>
+                            <p class="text-slate-400 text-sm lg:text-base leading-relaxed">Tanpa ribet instalasi. Cukup sewa, bot otomatis masuk ke grup kamu dengan fitur premium siap pakai.</p>
                         </div>
                     </div>
 
-                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
-                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                    <div class="glass-card rounded-[2.5rem] p-8 lg:p-10 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
+                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
                             <i class="fa-solid fa-file-code"></i>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white mb-3">Script Bot No Error</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">Semua script telah melalui tahap testing ketat untuk memastikan tidak ada error logis maupun sistem.</p>
+                            <p class="text-slate-400 text-sm lg:text-base leading-relaxed">Semua script telah melalui tahap testing ketat untuk memastikan tidak ada error logis maupun sistem.</p>
                         </div>
                     </div>
 
-                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
-                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                    <div class="glass-card rounded-[2.5rem] p-8 lg:p-10 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
+                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
                             <i class="fa-solid fa-hand-holding-heart"></i>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white mb-3">Legal & Aman</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">Infrastruktur legal menjamin data Anda aman dari suspend sepihak. Garansi penuh selama masa aktif.</p>
+                            <p class="text-slate-400 text-sm lg:text-base leading-relaxed">Infrastruktur legal menjamin data Anda aman dari suspend sepihak. Garansi penuh selama masa aktif.</p>
                         </div>
                     </div>
                 </div>
@@ -239,23 +242,22 @@
             initScrollEffect();
         };
 
-        // EFEK BLUR SAAT SCROLL (Ini yang kamu mau, Dim!)
         function initScrollEffect() {
             const trigger = document.getElementById('trigger-section');
-            
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // Jika section keunggulan terlihat, blur kategori & header
                         mainContent.classList.add('focus-mode');
                         headerElem.classList.add('focus-mode');
                     } else {
-                        // Jika tidak terlihat, normalkan lagi
                         mainContent.classList.remove('focus-mode');
                         headerElem.classList.remove('focus-mode');
                     }
                 });
-            }, { threshold: 0.2 }); // Trigger saat 20% section keunggulan muncul
+            }, { 
+                threshold: 0.15, // Disesuaikan sedikit buat desktop
+                rootMargin: "0px 0px -100px 0px" 
+            });
 
             observer.observe(trigger);
         }
@@ -296,12 +298,13 @@
             mainContent.classList.remove('focus-mode');
             headerElem.classList.remove('focus-mode');
             subTitleElem.innerText = CONFIG_STORE.header.sub;
-            mainContent.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
+            // Layout Desktop: 4 kolom
+            mainContent.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6";
             mainContent.innerHTML = Object.keys(CONFIG_STORE.categories).filter(key => key !== 'dev-menu').map((key, index) => {
                 const cat = CONFIG_STORE.categories[key];
-                return `<div onclick="renderProducts('${key}')" class="product-item glass-card rounded-[2rem] p-8 cursor-pointer flex items-center gap-6" style="animation-delay: ${index * 100}ms">
+                return `<div onclick="renderProducts('${key}')" class="product-item glass-card rounded-[2rem] p-8 cursor-pointer flex flex-col items-center text-center gap-4" style="animation-delay: ${index * 100}ms">
                     <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl text-blue-400 bg-blue-500/10 border border-blue-500/20"><i class="fa-solid ${cat.icon}"></i></div>
-                    <div><h3 class="text-xl font-bold text-white">${cat.title}</h3><p class="text-slate-400 text-sm">${cat.desc}</p></div>
+                    <div><h3 class="text-xl font-bold text-white">${cat.title}</h3><p class="text-slate-400 text-xs mt-1">${cat.desc}</p></div>
                 </div>`;
             }).join('');
         }
@@ -314,14 +317,14 @@
             mainContent.classList.remove('focus-mode');
             headerElem.classList.remove('focus-mode');
             subTitleElem.innerText = `Menampilkan ${category.title}`;
-            mainContent.className = "grid grid-cols-1 md:grid-cols-3 gap-6";
+            mainContent.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6";
             mainContent.innerHTML = category.products.length > 0 ? category.products.map((p, index) => {
                 const action = p.type === "link" ? `window.open('${p.url}', '_blank')` : `confirmPurchase('${p.name}', '${category.title}', '${p.price}', '${p.msg || ""}')`;
                 return `<div class="product-item glass-card rounded-[2rem] p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30" style="animation-delay: ${index * 100}ms">
                     <div><div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-2">${category.title}</div><h3 class="text-lg font-bold text-white mb-2">${p.name}</h3><p class="text-slate-400 text-xs mb-6 pb-4 border-b border-white/5 leading-relaxed">${p.spec}</p></div>
                     <div><div class="text-2xl font-bold text-white mb-5">${p.price}</div><button onclick="${action}" class="btn-primary w-full py-3.5 rounded-2xl font-bold text-white text-xs flex items-center justify-center gap-2"><i class="fa-solid ${p.type === 'link' ? 'fa-arrow-up-right-from-square' : 'fa-brands fa-whatsapp'} text-lg"></i> ${p.type === 'link' ? 'Buka Halaman' : 'Beli Sekarang'}</button></div>
                 </div>`;
-            }).join('') : `<p class='text-slate-500 italic col-span-full text-center'>Belum ada produk di kategori ini.</p>`;
+            }).join('') : `<p class='text-slate-500 italic col-span-full text-center py-10'>Belum ada produk di kategori ini.</p>`;
         }
     </script>
 </body>

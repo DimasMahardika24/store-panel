@@ -27,6 +27,15 @@ const CONFIG_STORE = {
         ]
     },
 
+    // CUSTOM TEXT UNTUK POPUP DETAIL PESANAN
+    checkout: {
+        title: "🛒 Detail Pesanan",
+        intro: "Berikut adalah rincian pesanan kamu:",
+        footer: "Klik tombol di bawah untuk lanjut ke WhatsApp",
+        btnConfirm: "Gas Order Sekarang",
+        btnCancel: "Nanti Dulu"
+    },
+
     // DAFTAR KATEGORI DAN PRODUK LENGKAP
     categories: {
         "panel-bot": { 
@@ -122,7 +131,6 @@ const CONFIG_STORE = {
         }
     },
 
-    // DAFTAR FAQ
     faqs: [
         { q: "Berapa lama proses setelah bayar?", a: "Proses kilat sekitar 5-15 menit saja setelah konfirmasi pembayaran diterima admin." },
         { q: "Metode pembayaran apa saja?", a: "Tersedia DANA, GOPAY, OVO, dan QRIS All Payment (bisa scan pakai apa aja)." },

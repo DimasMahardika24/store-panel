@@ -6,325 +6,153 @@
     <title>Dhikzx Cloud — Simple Store</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+    <script src="config.js"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        
-        :root {
-            --bg-deep: #0a0f1a;
-            --accent: #38bdf8;
-        }
-
-        body { 
-            background: var(--bg-deep); 
-            color: #f8fafc; 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 25%),
-                radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.08) 0%, transparent 25%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: var(--bg-deep); }
-        ::-webkit-scrollbar-thumb { background: rgba(56, 189, 248, 0.2); border-radius: 10px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
-
-        /* Modal & Glassmorphism */
+        :root { --bg-deep: #0a0f1a; --accent: #38bdf8; }
+        body { background: var(--bg-deep); color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; overflow-x: hidden; background-image: radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 25%), radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.08) 0%, transparent 25%); }
+        .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease; }
+        .glass-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-5px); }
+        .product-item { opacity: 0; animation: slideUp 0.6s ease forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .btn-primary { background: linear-gradient(135deg, #38bdf8, #2563eb); transition: 0.3s; }
+        .btn-primary:active { transform: scale(0.95); }
+        .faq-ans { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
         #welcome-modal { transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
         .modal-hide { opacity: 0; transform: translate(-50%, -60%) scale(0.9) !important; pointer-events: none; }
-        .glass-card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-        }
-        .glass-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-5px); }
-
-        /* Smooth Transition for Blur Effect (Desktop Friendly) */
-        #main-content, #main-header {
-            transition: filter 0.8s ease, opacity 0.8s ease, transform 0.8s ease;
-            will-change: filter, opacity;
-        }
-        
-        /* Level blur dikurangi dikit biar gak terlalu pusing di layar gede */
-        .focus-mode {
-            filter: blur(8px);
-            opacity: 0.15;
-            transform: scale(0.98);
-            pointer-events: none;
-        }
-
-        /* Animations */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .product-item { opacity: 0; animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
-        .progress-container { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 15px; }
         .progress-fill { height: 100%; background: linear-gradient(to right, #38bdf8, #818cf8); width: 100%; }
-        
         .run-progress { animation: progressRun linear forwards; }
         @keyframes progressRun { from { width: 100% } to { width: 0% } }
-
-        .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-        .btn-primary { background: linear-gradient(135deg, #38bdf8, #2563eb); transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
-        .btn-primary:active { transform: scale(0.95); }
-
-        .faq-ans { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        #header-badge-container { cursor: pointer; user-select: none; }
     </style>
 </head>
 <body class="pb-20">
 
     <div id="modal-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-md z-[99] transition-opacity duration-500 opacity-100"></div>
-    <div id="welcome-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md glass-card p-8 rounded-[2.5rem] border border-white/10 shadow-2xl">
-        <div id="modal-content" class="text-center">
+    <div id="welcome-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md glass-card p-8 rounded-[2.5rem]">
+        <div class="text-center">
             <div id="rules-icon-container" class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl text-blue-400 mx-auto mb-4"></div>
             <h2 id="rules-title" class="text-2xl font-bold mb-2 text-white"></h2>
-            <div id="rules-content" class="text-slate-400 text-sm leading-relaxed space-y-1 mb-4"></div>
-            <div class="progress-container"><div id="modal-progress" class="progress-fill"></div></div>
-            <p id="rules-footer" class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest font-bold"></p>
+            <div id="rules-content" class="text-slate-400 text-sm space-y-1 mb-4"></div>
+            <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden"><div id="modal-progress" class="progress-fill"></div></div>
+            <p id="rules-footer" class="text-[10px] text-slate-500 mt-2 uppercase font-bold"></p>
         </div>
     </div>
 
-    <header id="main-header" class="pt-16 pb-12 text-center">
-        <div id="header-badge-container" onclick="renderProducts('dev-menu')" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 product-item transition-all active:scale-95 hover:bg-blue-500/20"></div>
-        <h1 id="main-title" class="text-4xl lg:text-6xl font-extrabold tracking-tight mb-2 product-item" style="animation-delay: 100ms"></h1>
-        <p id="sub-title" class="text-slate-500 text-sm lg:text-base product-item" style="animation-delay: 200ms"></p>
+    <header class="pt-16 pb-12 text-center">
+        <div id="header-badge-container" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4"></div>
+        <h1 id="main-title" class="text-4xl lg:text-6xl font-extrabold tracking-tight mb-2"></h1>
+        <p id="sub-title" class="text-slate-500 text-sm"></p>
     </header>
 
     <main class="container mx-auto px-6 max-w-6xl">
         <div id="navigation-area" class="mb-8 hidden">
-            <button onclick="renderCategories()" class="flex items-center gap-2 text-slate-400 hover:text-white transition-all group">
-                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali ke Kategori
+            <button onclick="renderCategories()" class="text-slate-400 hover:text-white flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Kembali
             </button>
         </div>
         
         <div id="main-content" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"></div>
 
         <div id="dashboard-extras" class="hidden">
-            
-            <div id="trigger-section" class="mt-40 mb-20 product-item" style="animation-delay: 400ms">
-                <div class="text-center mb-16 max-w-3xl mx-auto px-4">
-                    <h2 class="text-4xl md:text-5xl lg:text-6xl font-extrabold text-white mb-6 leading-tight">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
-                    <p class="text-slate-400 text-base md:text-lg">Infrastruktur kelas enterprise dengan harga terjangkau untuk kebutuhan bot kamu.</p>
-                </div>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8 max-w-5xl mx-auto">
-                    <div class="glass-card rounded-[2.5rem] p-8 lg:p-10 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
-                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
-                            <i class="fa-solid fa-microchip"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-white mb-3">Optimized CPU</h3>
-                            <p class="text-slate-400 text-sm lg:text-base leading-relaxed">Resource prosesor terisolasi menjamin performa maksimal tanpa gangguan tetangga. Bot kamu tetap responsif.</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-[2.5rem] p-8 lg:p-10 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
-                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
-                            <i class="fa-solid fa-robot"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-white mb-3">Sewa Bot Praktis</h3>
-                            <p class="text-slate-400 text-sm lg:text-base leading-relaxed">Tanpa ribet instalasi. Cukup sewa, bot otomatis masuk ke grup kamu dengan fitur premium siap pakai.</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-[2.5rem] p-8 lg:p-10 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
-                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
-                            <i class="fa-solid fa-file-code"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-white mb-3">Script Bot No Error</h3>
-                            <p class="text-slate-400 text-sm lg:text-base leading-relaxed">Semua script telah melalui tahap testing ketat untuk memastikan tidak ada error logis maupun sistem.</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-[2.5rem] p-8 lg:p-10 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
-                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
-                            <i class="fa-solid fa-hand-holding-heart"></i>
-                        </div>
-                        <div>
-                            <h3 class="text-2xl font-bold text-white mb-3">Legal & Aman</h3>
-                            <p class="text-slate-400 text-sm lg:text-base leading-relaxed">Infrastruktur legal menjamin data Anda aman dari suspend sepihak. Garansi penuh selama masa aktif.</p>
-                        </div>
-                    </div>
+            <div class="mt-40 mb-20 text-center">
+                <h2 class="text-4xl font-extrabold text-white mb-16">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto text-left">
+                    <div class="glass-card rounded-[2.5rem] p-8 border-l-4 border-l-blue-500/50"><i class="fa-solid fa-microchip text-2xl text-blue-400 mb-4"></i><h3 class="text-xl font-bold text-white">Optimized CPU</h3><p class="text-slate-400 text-sm">Resource terisolasi untuk bot yang stabil.</p></div>
+                    <div class="glass-card rounded-[2.5rem] p-8 border-l-4 border-l-blue-500/50"><i class="fa-solid fa-robot text-2xl text-blue-400 mb-4"></i><h3 class="text-xl font-bold text-white">Sewa Bot Praktis</h3><p class="text-slate-400 text-sm">Bot otomatis masuk grup, fitur premium siap pakai.</p></div>
                 </div>
             </div>
 
-            <div class="mt-40 mb-10 product-item" style="animation-delay: 500ms">
+            <div class="mt-40">
                 <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-white mb-2">Punya Pertanyaan?</h2>
-                    <p class="text-slate-500 text-sm">Beberapa hal yang sering ditanyakan pelanggan</p>
+                    <h2 class="text-3xl font-bold text-white">Pertanyaan Populer</h2>
                 </div>
-                
-                <div class="max-w-3xl mx-auto space-y-4">
-                    <div class="glass-card rounded-[1.5rem] border border-white/5 overflow-hidden">
-                        <button onclick="toggleFAQ(1)" class="w-full p-6 text-left flex justify-between items-center group">
-                            <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors">Berapa lama proses pengiriman?</span>
-                            <i id="faq-icon-1" class="fa-solid fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-                        </button>
-                        <div id="faq-ans-1" class="faq-ans bg-white/5">
-                            <p class="px-6 pb-6 text-sm text-slate-400">Pengerjaan biasanya memakan waktu 5-15 menit setelah pembayaran dikonfirmasi.</p>
-                        </div>
-                    </div>
-
-                    <div class="glass-card rounded-[1.5rem] border border-white/5 overflow-hidden">
-                        <button onclick="toggleFAQ(2)" class="w-full p-6 text-left flex justify-between items-center group">
-                            <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors">Metode pembayaran apa saja?</span>
-                            <i id="faq-icon-2" class="fa-solid fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-                        </button>
-                        <div id="faq-ans-2" class="faq-ans bg-white/5">
-                            <p class="px-6 pb-6 text-sm text-slate-400">Mendukung DANA, GOPAY, OVO, dan QRIS All Payment.</p>
-                        </div>
-                    </div>
-                </div>
+                <div id="faq-container" class="max-w-3xl mx-auto space-y-3"></div>
             </div>
         </div>
-
     </main>
 
-    <footer class="mt-32 text-center text-slate-600 text-[10px] uppercase tracking-[0.2em] font-bold pb-10">
-        © 2026 Dhikzx Cloud Enterprise. Made with ❤️ by Dimas.
-    </footer>
+    <footer class="mt-32 text-center text-slate-600 text-[10px] uppercase font-bold pb-10">© 2026 Dhikzx Cloud.</footer>
 
     <script>
-        const CONFIG_STORE = {
-            waNumber: "6285810287828",
-            header: {
-                badge: "Store Simple Service",
-                title: "DHIKZX <span class='gradient-text'>STORE</span>",
-                sub: "Pilih kategori layanan untuk memulai"
-            },
-            rules: {
-                title: "Dhikzx Store Rules",
-                icon: "fa-shield-check",
-                duration: 5,
-                list: [
-                    "No Refund jika server sudah dibuat",
-                    "Dilarang melakukan DDoS dari panel",
-                    "Garansi Full selama masa aktif",
-                    "Order = Setuju dengan peraturan"
-                ]
-            },
-            categories: {
-                "panel-bot": { title: "Panel Bot", icon: "fa-server", desc: "Hosting bot 24/7 anti suspend.", products: [] },
-                "script-bot": { title: "Script Bot", icon: "fa-code", desc: "Script siap pakai, no error.", products: [] },
-                "sewa-bot": { title: "Sewa Bot", icon: "fa-robot", desc: "Bot masuk ke grup kamu.", products: [] },
-                "jasa-fix": { title: "Jasa Fix Bot", icon: "fa-tools", desc: "Benerin error script bot kamu.", products: [] },
-                "dev-menu": { title: "Jendela Pengembang", icon: "fa-code-branch", desc: "Akses cepat informasi.", products: [
-                    { name: "FAQ", spec: "Bantuan & Pertanyaan", price: "Help", type: "link", url: "#" },
-                    { name: "Contact", spec: "WhatsApp Admin", price: "Support", type: "link", url: "https://wa.me/6285810287828" }
-                ]}
-            }
-        };
-
         const modal = document.getElementById('welcome-modal');
         const overlay = document.getElementById('modal-overlay');
         const mainContent = document.getElementById('main-content');
-        const navArea = document.getElementById('navigation-area');
-        const subTitleElem = document.getElementById('sub-title');
-        const footerElem = document.getElementById('rules-footer');
-        const progressFill = document.getElementById('modal-progress');
         const dashboardExtras = document.getElementById('dashboard-extras');
-        const headerElem = document.getElementById('main-header');
 
         window.onload = () => {
-            document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">${CONFIG_STORE.header.badge}</span>`;
+            document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold uppercase tracking-widest">${CONFIG_STORE.header.badge}</span>`;
             document.getElementById('main-title').innerHTML = CONFIG_STORE.header.title;
             document.getElementById('sub-title').innerText = CONFIG_STORE.header.sub;
             
+            // Render FAQ dari Config
+            const faqBox = document.getElementById('faq-container');
+            faqBox.innerHTML = CONFIG_STORE.faqs.map((f, i) => `
+                <div class="glass-card rounded-2xl overflow-hidden">
+                    <button onclick="toggleFAQ(${i})" class="w-full p-5 text-left flex justify-between items-center group">
+                        <span class="font-semibold text-slate-200 group-hover:text-blue-400">${f.q}</span>
+                        <i id="faq-icon-${i}" class="fa-solid fa-chevron-down text-blue-400 transition-transform"></i>
+                    </button>
+                    <div id="faq-ans-${i}" class="faq-ans bg-white/5"><p class="px-5 pb-5 text-sm text-slate-400">${f.a}</p></div>
+                </div>`).join('');
+
             showRulesModal();
             renderCategories();
-            initScrollEffect();
         };
-
-        function initScrollEffect() {
-            const trigger = document.getElementById('trigger-section');
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        mainContent.classList.add('focus-mode');
-                        headerElem.classList.add('focus-mode');
-                    } else {
-                        mainContent.classList.remove('focus-mode');
-                        headerElem.classList.remove('focus-mode');
-                    }
-                });
-            }, { 
-                threshold: 0.15, // Disesuaikan sedikit buat desktop
-                rootMargin: "0px 0px -100px 0px" 
-            });
-
-            observer.observe(trigger);
-        }
 
         function showRulesModal() {
             document.getElementById('rules-title').innerText = CONFIG_STORE.rules.title;
             document.getElementById('rules-icon-container').innerHTML = `<i class="fa-solid ${CONFIG_STORE.rules.icon}"></i>`;
             document.getElementById('rules-content').innerHTML = CONFIG_STORE.rules.list.map((r, i) => `<p>${i+1}. ${r}</p>`).join('');
-            progressFill.style.animationDuration = `${CONFIG_STORE.rules.duration}s`;
-            progressFill.classList.add('run-progress');
+            document.getElementById('modal-progress').style.animationDuration = `${CONFIG_STORE.rules.duration}s`;
+            document.getElementById('modal-progress').classList.add('run-progress');
             let timeLeft = CONFIG_STORE.rules.duration;
-            footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
-            const countdownInterval = setInterval(() => {
+            const timer = setInterval(() => {
                 timeLeft--;
-                if (timeLeft >= 1) footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
-                else { clearInterval(countdownInterval); closeModal(); }
+                document.getElementById('rules-footer').innerText = `Menutup dalam ${timeLeft}s`;
+                if(timeLeft <= 0) { clearInterval(timer); closeModal(); }
             }, 1000);
         }
 
-        function closeModal() {
-            modal.classList.add('modal-hide');
-            overlay.style.opacity = '0';
-            setTimeout(() => { overlay.classList.add('hidden'); }, 600);
-        }
+        function closeModal() { modal.classList.add('modal-hide'); overlay.style.opacity = '0'; setTimeout(() => overlay.classList.add('hidden'), 600); }
 
         function toggleFAQ(id) {
             const ans = document.getElementById(`faq-ans-${id}`);
             const icon = document.getElementById(`faq-icon-${id}`);
-            const isOpen = ans.style.maxHeight !== '0px' && ans.style.maxHeight !== '';
+            const open = ans.style.maxHeight !== '0px' && ans.style.maxHeight !== '';
             document.querySelectorAll('.faq-ans').forEach(el => el.style.maxHeight = '0px');
             document.querySelectorAll('[id^="faq-icon-"]').forEach(el => el.style.transform = 'rotate(0deg)');
-            if (!isOpen) { ans.style.maxHeight = ans.scrollHeight + 'px'; icon.style.transform = 'rotate(180deg)'; }
+            if (!open) { ans.style.maxHeight = ans.scrollHeight + 'px'; icon.style.transform = 'rotate(180deg)'; }
         }
 
         function renderCategories() {
-            navArea.classList.add('hidden');
+            document.getElementById('navigation-area').classList.add('hidden');
             dashboardExtras.classList.remove('hidden');
-            mainContent.classList.remove('focus-mode');
-            headerElem.classList.remove('focus-mode');
-            subTitleElem.innerText = CONFIG_STORE.header.sub;
-            // Layout Desktop: 4 kolom
             mainContent.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6";
-            mainContent.innerHTML = Object.keys(CONFIG_STORE.categories).filter(key => key !== 'dev-menu').map((key, index) => {
+            mainContent.innerHTML = Object.keys(CONFIG_STORE.categories).map((key, index) => {
                 const cat = CONFIG_STORE.categories[key];
-                return `<div onclick="renderProducts('${key}')" class="product-item glass-card rounded-[2rem] p-8 cursor-pointer flex flex-col items-center text-center gap-4" style="animation-delay: ${index * 100}ms">
+                return `<div onclick="renderProducts('${key}')" class="product-item glass-card rounded-[2rem] p-8 cursor-pointer flex flex-col items-center text-center gap-4" style="animation-delay: ${index*100}ms">
                     <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl text-blue-400 bg-blue-500/10 border border-blue-500/20"><i class="fa-solid ${cat.icon}"></i></div>
-                    <div><h3 class="text-xl font-bold text-white">${cat.title}</h3><p class="text-slate-400 text-xs mt-1">${cat.desc}</p></div>
+                    <h3 class="text-xl font-bold text-white">${cat.title}</h3><p class="text-slate-400 text-xs">${cat.desc}</p>
                 </div>`;
             }).join('');
         }
 
-        function renderProducts(categoryKey) {
-            const category = CONFIG_STORE.categories[categoryKey];
-            navArea.classList.remove('hidden');
+        function renderProducts(key) {
+            const cat = CONFIG_STORE.categories[key];
+            document.getElementById('navigation-area').classList.remove('hidden');
             dashboardExtras.classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            mainContent.classList.remove('focus-mode');
-            headerElem.classList.remove('focus-mode');
-            subTitleElem.innerText = `Menampilkan ${category.title}`;
             mainContent.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6";
-            mainContent.innerHTML = category.products.length > 0 ? category.products.map((p, index) => {
-                const action = p.type === "link" ? `window.open('${p.url}', '_blank')` : `confirmPurchase('${p.name}', '${category.title}', '${p.price}', '${p.msg || ""}')`;
-                return `<div class="product-item glass-card rounded-[2rem] p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30" style="animation-delay: ${index * 100}ms">
-                    <div><div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-2">${category.title}</div><h3 class="text-lg font-bold text-white mb-2">${p.name}</h3><p class="text-slate-400 text-xs mb-6 pb-4 border-b border-white/5 leading-relaxed">${p.spec}</p></div>
-                    <div><div class="text-2xl font-bold text-white mb-5">${p.price}</div><button onclick="${action}" class="btn-primary w-full py-3.5 rounded-2xl font-bold text-white text-xs flex items-center justify-center gap-2"><i class="fa-solid ${p.type === 'link' ? 'fa-arrow-up-right-from-square' : 'fa-brands fa-whatsapp'} text-lg"></i> ${p.type === 'link' ? 'Buka Halaman' : 'Beli Sekarang'}</button></div>
-                </div>`;
-            }).join('') : `<p class='text-slate-500 italic col-span-full text-center py-10'>Belum ada produk di kategori ini.</p>`;
+            mainContent.innerHTML = cat.products.map((p, i) => `
+                <div class="product-item glass-card rounded-[2.5rem] p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30" style="animation-delay: ${i*100}ms">
+                    <div><div class="text-[10px] font-bold text-blue-400 uppercase mb-2">${cat.title}</div><h3 class="text-lg font-bold text-white mb-2">${p.name}</h3><p class="text-slate-400 text-xs mb-6 pb-4 border-b border-white/5">${p.spec}</p></div>
+                    <div><div class="text-2xl font-bold text-white mb-5">${p.price}</div><button onclick="buyViaWA('${p.name}', '${cat.title}', '${p.price}', '${p.msg}')" class="btn-primary w-full py-4 rounded-2xl font-bold text-white text-xs flex items-center justify-center gap-2"><i class="fa-brands fa-whatsapp text-lg"></i> Beli Sekarang</button></div>
+                </div>`).join('');
+        }
+
+        function buyViaWA(name, cat, price, msg) {
+            window.open(`https://wa.me/${CONFIG_STORE.waNumber}?text=${encodeURIComponent(msg + "\n\nDetail: " + cat + " - " + name + " (" + price + ")")}`, '_blank');
         }
     </script>
 </body>

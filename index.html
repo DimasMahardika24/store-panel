@@ -38,9 +38,20 @@
             background: rgba(30, 41, 59, 0.4);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
         }
         .glass-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-5px); }
+
+        /* Smooth Transition for Blur Effect */
+        #main-content, header {
+            transition: all 0.8s ease;
+        }
+        .focus-mode {
+            filter: blur(10px);
+            opacity: 0.2;
+            transform: scale(0.95);
+            pointer-events: none;
+        }
 
         /* Animations */
         @keyframes slideUp {
@@ -58,9 +69,7 @@
         .btn-primary { background: linear-gradient(135deg, #38bdf8, #2563eb); transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
         .btn-primary:active { transform: scale(0.95); }
 
-        /* Extra Style FAQ */
         .faq-ans { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        
         #header-badge-container { cursor: pointer; user-select: none; }
     </style>
 </head>
@@ -77,7 +86,7 @@
         </div>
     </div>
 
-    <header class="pt-16 pb-12 text-center">
+    <header id="main-header" class="pt-16 pb-12 text-center">
         <div id="header-badge-container" onclick="renderProducts('dev-menu')" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 product-item transition-all active:scale-95 hover:bg-blue-500/20"></div>
         <h1 id="main-title" class="text-4xl font-extrabold tracking-tight mb-2 product-item" style="animation-delay: 100ms"></h1>
         <p id="sub-title" class="text-slate-500 text-sm product-item" style="animation-delay: 200ms"></p>
@@ -94,79 +103,79 @@
 
         <div id="dashboard-extras" class="hidden">
             
-            <div class="mt-28 product-item" style="animation-delay: 400ms">
+            <div id="trigger-section" class="mt-40 mb-20 product-item" style="animation-delay: 400ms">
                 <div class="text-center mb-16 max-w-2xl mx-auto px-4">
                     <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
                     <p class="text-slate-400 text-base md:text-lg">Infrastruktur kelas enterprise dengan harga terjangkau untuk kebutuhan bot kamu.</p>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
                         <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
                             <i class="fa-solid fa-microchip"></i>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white mb-3">Optimized CPU</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">Resource prosesor terisolasi menjamin performa maksimal tanpa gangguan tetangga. Bot kamu tetap responsif setiap saat.</p>
+                            <p class="text-slate-400 text-sm leading-relaxed">Resource prosesor terisolasi menjamin performa maksimal tanpa gangguan tetangga. Bot kamu tetap responsif.</p>
                         </div>
                     </div>
 
-                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
                         <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
                             <i class="fa-solid fa-robot"></i>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white mb-3">Sewa Bot Praktis</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">Tanpa ribet instalasi. Cukup sewa, bot otomatis masuk ke grup kamu dengan fitur premium yang siap digunakan 24 jam.</p>
+                            <p class="text-slate-400 text-sm leading-relaxed">Tanpa ribet instalasi. Cukup sewa, bot otomatis masuk ke grup kamu dengan fitur premium siap pakai.</p>
                         </div>
                     </div>
 
-                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
                         <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
                             <i class="fa-solid fa-file-code"></i>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white mb-3">Script Bot No Error</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">Semua script yang kami jual telah melalui tahap testing ketat untuk memastikan tidak ada error logis maupun sistem.</p>
+                            <p class="text-slate-400 text-sm leading-relaxed">Semua script telah melalui tahap testing ketat untuk memastikan tidak ada error logis maupun sistem.</p>
                         </div>
                     </div>
 
-                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6 border-l-4 border-l-blue-500/50">
                         <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
                             <i class="fa-solid fa-hand-holding-heart"></i>
                         </div>
                         <div>
                             <h3 class="text-2xl font-bold text-white mb-3">Legal & Aman</h3>
-                            <p class="text-slate-400 text-sm leading-relaxed">Infrastruktur legal menjamin data Anda aman dari suspend sepihak. Kami memberikan garansi penuh sesuai masa aktif.</p>
+                            <p class="text-slate-400 text-sm leading-relaxed">Infrastruktur legal menjamin data Anda aman dari suspend sepihak. Garansi penuh selama masa aktif.</p>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="mt-28 product-item" style="animation-delay: 500ms">
-                <div class="text-center mb-10">
-                    <h2 class="text-2xl font-bold text-white mb-2">Punya Pertanyaan?</h2>
+            <div class="mt-40 mb-10 product-item" style="animation-delay: 500ms">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-white mb-2">Punya Pertanyaan?</h2>
                     <p class="text-slate-500 text-sm">Beberapa hal yang sering ditanyakan pelanggan</p>
                 </div>
                 
                 <div class="max-w-3xl mx-auto space-y-4">
                     <div class="glass-card rounded-[1.5rem] border border-white/5 overflow-hidden">
                         <button onclick="toggleFAQ(1)" class="w-full p-6 text-left flex justify-between items-center group">
-                            <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors text-sm md:text-base">Berapa lama proses pengiriman?</span>
+                            <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors">Berapa lama proses pengiriman?</span>
                             <i id="faq-icon-1" class="fa-solid fa-chevron-down text-blue-400 transition-transform duration-300"></i>
                         </button>
                         <div id="faq-ans-1" class="faq-ans bg-white/5">
-                            <p class="px-6 pb-6 text-xs md:text-sm text-slate-400 leading-relaxed">Proses pengerjaan biasanya memakan waktu 5-15 menit setelah pembayaran dikonfirmasi.</p>
+                            <p class="px-6 pb-6 text-sm text-slate-400">Pengerjaan biasanya memakan waktu 5-15 menit setelah pembayaran dikonfirmasi.</p>
                         </div>
                     </div>
 
                     <div class="glass-card rounded-[1.5rem] border border-white/5 overflow-hidden">
                         <button onclick="toggleFAQ(2)" class="w-full p-6 text-left flex justify-between items-center group">
-                            <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors text-sm md:text-base">Apakah metode pembayarannya lengkap?</span>
+                            <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors">Metode pembayaran apa saja?</span>
                             <i id="faq-icon-2" class="fa-solid fa-chevron-down text-blue-400 transition-transform duration-300"></i>
                         </button>
                         <div id="faq-ans-2" class="faq-ans bg-white/5">
-                            <p class="px-6 pb-6 text-xs md:text-sm text-slate-400 leading-relaxed">Ya! Kami mendukung pembayaran via DANA, GOPAY, OVO, dan QRIS All Payment.</p>
+                            <p class="px-6 pb-6 text-sm text-slate-400">Mendukung DANA, GOPAY, OVO, dan QRIS All Payment.</p>
                         </div>
                     </div>
                 </div>
@@ -175,7 +184,7 @@
 
     </main>
 
-    <footer class="mt-24 text-center text-slate-600 text-[10px] uppercase tracking-[0.2em] font-bold pb-10">
+    <footer class="mt-32 text-center text-slate-600 text-[10px] uppercase tracking-[0.2em] font-bold pb-10">
         © 2026 Dhikzx Cloud Enterprise. Made with ❤️ by Dimas.
     </footer>
 
@@ -199,53 +208,14 @@
                 ]
             },
             categories: {
-                "panel-bot": {
-                    title: "Panel Bot",
-                    icon: "fa-server",
-                    desc: "Hosting bot 24/7 anti suspend.",
-                    products: [
-                        { name: "Starter Panel", spec: "RAM 2GB | CPU 100%", price: "Rp 5.000", msg: "Halo Dhikzx, saya mau order Starter Panel spek 2GB. Mohon diproses ya!" },
-                        { name: "Medium Panel", spec: "RAM 4GB | CPU 150%", price: "Rp 10.000", msg: "Halo bang, saya mau beli Medium Panel RAM 4GB. Masih ready?" },
-                        { name: "Extreme Panel", spec: "RAM UNLIMITED | CPU 200%", price: "Rp 25.000", msg: "Assalamualaikum, mau order Extreme Panel RAM Unlimited spek gahar!" }
-                    ]
-                },
-                "script-bot": {
-                    title: "Script Bot",
-                    icon: "fa-code",
-                    desc: "Script siap pakai, no error.",
-                    products: [
-                        { name: "Script Pushkontak", spec: "Fitur v15 Terbaru", price: "Rp 15.000", msg: "Halo Dhikzx, minat Script Pushkontak v15 nih. Berapa harganya?" },
-                        { name: "Script Bot RPG", spec: "Full Game & Fitur", price: "Rp 30.000", msg: "Minat Script Bot RPG nya bang, pengen buat grup jadi seru!" }
-                    ]
-                },
-                "sewa-bot": {
-                    title: "Sewa Bot",
-                    icon: "fa-robot",
-                    desc: "Bot masuk ke grup kamu.",
-                    products: [
-                        { name: "Sewa 1 Bulan", spec: "1 Grup + Fitur Premium", price: "Rp 10.000", msg: "Bang, mau sewa bot buat di grup saya paket 1 bulan." },
-                        { name: "Sewa Permanen", spec: "Unlimited Time", price: "Rp 35.000", msg: "Izin order Sewa Bot Permanen buat grup pribadi saya bang." }
-                    ]
-                },
-                "jasa-fix": {
-                    title: "Jasa Fix Bot",
-                    icon: "fa-tools",
-                    desc: "Benerin error script bot kamu.",
-                    products: [
-                        { name: "Fix Error Ringan", spec: "Pengerjaan 10-30 Menit", price: "Rp 5.000", msg: "Bang, script bot saya error dikit nih. Bisa bantu benerin?" },
-                        { name: "Fix Error Logic", spec: "Pengerjaan 1-3 Jam", price: "Rp 15.000", msg: "Script bot saya logic-nya berantakan, jasa fix-nya masih buka?" }
-                    ]
-                },
-                "dev-menu": {
-                    title: "Jendela Pengembang",
-                    icon: "fa-code-branch",
-                    desc: "Akses cepat informasi bantuan dan kontak.",
-                    products: [
-                        { name: "FAQ", spec: "Pertanyaan yang sering diajukan", price: "Bantuan", type: "link", url: "#" },
-                        { name: "Contact", spec: "Hubungi Admin secara langsung", price: "Support", type: "link", url: "https://wa.me/6285810287828" },
-                        { name: "Testimoni", spec: "Lihat bukti kepuasan pelanggan", price: "Trust", type: "link", url: "#" }
-                    ]
-                }
+                "panel-bot": { title: "Panel Bot", icon: "fa-server", desc: "Hosting bot 24/7 anti suspend.", products: [] },
+                "script-bot": { title: "Script Bot", icon: "fa-code", desc: "Script siap pakai, no error.", products: [] },
+                "sewa-bot": { title: "Sewa Bot", icon: "fa-robot", desc: "Bot masuk ke grup kamu.", products: [] },
+                "jasa-fix": { title: "Jasa Fix Bot", icon: "fa-tools", desc: "Benerin error script bot kamu.", products: [] },
+                "dev-menu": { title: "Jendela Pengembang", icon: "fa-code-branch", desc: "Akses cepat informasi.", products: [
+                    { name: "FAQ", spec: "Bantuan & Pertanyaan", price: "Help", type: "link", url: "#" },
+                    { name: "Contact", spec: "WhatsApp Admin", price: "Support", type: "link", url: "https://wa.me/6285810287828" }
+                ]}
             }
         };
 
@@ -257,6 +227,7 @@
         const footerElem = document.getElementById('rules-footer');
         const progressFill = document.getElementById('modal-progress');
         const dashboardExtras = document.getElementById('dashboard-extras');
+        const headerElem = document.getElementById('main-header');
 
         window.onload = () => {
             document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">${CONFIG_STORE.header.badge}</span>`;
@@ -265,7 +236,29 @@
             
             showRulesModal();
             renderCategories();
+            initScrollEffect();
         };
+
+        // EFEK BLUR SAAT SCROLL (Ini yang kamu mau, Dim!)
+        function initScrollEffect() {
+            const trigger = document.getElementById('trigger-section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        // Jika section keunggulan terlihat, blur kategori & header
+                        mainContent.classList.add('focus-mode');
+                        headerElem.classList.add('focus-mode');
+                    } else {
+                        // Jika tidak terlihat, normalkan lagi
+                        mainContent.classList.remove('focus-mode');
+                        headerElem.classList.remove('focus-mode');
+                    }
+                });
+            }, { threshold: 0.2 }); // Trigger saat 20% section keunggulan muncul
+
+            observer.observe(trigger);
+        }
 
         function showRulesModal() {
             document.getElementById('rules-title').innerText = CONFIG_STORE.rules.title;
@@ -285,37 +278,7 @@
         function closeModal() {
             modal.classList.add('modal-hide');
             overlay.style.opacity = '0';
-            setTimeout(() => { overlay.classList.add('hidden'); progressFill.classList.remove('run-progress'); }, 600);
-        }
-
-        function openModal() {
-            overlay.classList.remove('hidden');
-            setTimeout(() => { overlay.style.opacity = '1'; modal.classList.remove('modal-hide'); }, 10);
-        }
-
-        function confirmPurchase(name, cat, price, customMsg) {
-            openModal();
-            document.getElementById('rules-icon-container').innerHTML = `<i class="fa-solid fa-cart-shopping animate-bounce"></i>`;
-            document.getElementById('rules-title').innerText = "Konfirmasi Order";
-            document.getElementById('rules-content').innerHTML = `
-                <div class="bg-white/5 p-4 rounded-2xl border border-white/5 text-left mb-2">
-                    <p class="text-[10px] text-blue-400 font-bold uppercase tracking-wider">${cat}</p>
-                    <p class="text-white font-bold text-lg">${name}</p>
-                    <p class="text-slate-400 text-sm">${price}</p>
-                </div>
-            `;
-            progressFill.style.animationDuration = `3s`;
-            progressFill.classList.add('run-progress');
-            let timeLeft = 3;
-            footerElem.innerText = `Menyiapkan WhatsApp dalam ${timeLeft}...`;
-            const countdown = setInterval(() => {
-                timeLeft--;
-                if (timeLeft >= 1) footerElem.innerText = `Menyiapkan WhatsApp dalam ${timeLeft}...`;
-                else {
-                    clearInterval(countdown);
-                    footerElem.innerHTML = `<button onclick="buyViaWA('${name}', '${cat}', '${price}', '${customMsg}')" class="btn-primary w-full py-3 rounded-xl font-bold text-white text-xs mt-2 shadow-lg shadow-blue-500/20">LANJUT KE WHATSAPP <i class="fa-solid fa-arrow-right ml-1"></i></button><button onclick="closeModal()" class="block w-full text-center text-[10px] text-slate-500 mt-3 font-bold uppercase">Batal</button>`;
-                }
-            }, 1000);
+            setTimeout(() => { overlay.classList.add('hidden'); }, 600);
         }
 
         function toggleFAQ(id) {
@@ -330,6 +293,8 @@
         function renderCategories() {
             navArea.classList.add('hidden');
             dashboardExtras.classList.remove('hidden');
+            mainContent.classList.remove('focus-mode');
+            headerElem.classList.remove('focus-mode');
             subTitleElem.innerText = CONFIG_STORE.header.sub;
             mainContent.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
             mainContent.innerHTML = Object.keys(CONFIG_STORE.categories).filter(key => key !== 'dev-menu').map((key, index) => {
@@ -345,21 +310,18 @@
             const category = CONFIG_STORE.categories[categoryKey];
             navArea.classList.remove('hidden');
             dashboardExtras.classList.add('hidden');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+            mainContent.classList.remove('focus-mode');
+            headerElem.classList.remove('focus-mode');
             subTitleElem.innerText = `Menampilkan ${category.title}`;
             mainContent.className = "grid grid-cols-1 md:grid-cols-3 gap-6";
-            mainContent.innerHTML = category.products.map((p, index) => {
+            mainContent.innerHTML = category.products.length > 0 ? category.products.map((p, index) => {
                 const action = p.type === "link" ? `window.open('${p.url}', '_blank')` : `confirmPurchase('${p.name}', '${category.title}', '${p.price}', '${p.msg || ""}')`;
                 return `<div class="product-item glass-card rounded-[2rem] p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30" style="animation-delay: ${index * 100}ms">
                     <div><div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-2">${category.title}</div><h3 class="text-lg font-bold text-white mb-2">${p.name}</h3><p class="text-slate-400 text-xs mb-6 pb-4 border-b border-white/5 leading-relaxed">${p.spec}</p></div>
                     <div><div class="text-2xl font-bold text-white mb-5">${p.price}</div><button onclick="${action}" class="btn-primary w-full py-3.5 rounded-2xl font-bold text-white text-xs flex items-center justify-center gap-2"><i class="fa-solid ${p.type === 'link' ? 'fa-arrow-up-right-from-square' : 'fa-brands fa-whatsapp'} text-lg"></i> ${p.type === 'link' ? 'Buka Halaman' : 'Beli Sekarang'}</button></div>
                 </div>`;
-            }).join('');
-        }
-
-        function buyViaWA(name, cat, price, customMsg) {
-            const detailOrder = `\n\n📦 Kategori: *${cat}*\n🚀 Produk: *${name}*\n💰 Harga: *${price}*`;
-            window.open(`https://wa.me/${CONFIG_STORE.waNumber}?text=${encodeURIComponent(customMsg + detailOrder)}`, '_blank');
-            closeModal();
+            }).join('') : `<p class='text-slate-500 italic col-span-full text-center'>Belum ada produk di kategori ini.</p>`;
         }
     </script>
 </body>

@@ -58,7 +58,9 @@
         .btn-primary { background: linear-gradient(135deg, #38bdf8, #2563eb); transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
         .btn-primary:active { transform: scale(0.95); }
 
-        /* Extra Style untuk Badge Klik */
+        /* Extra Style FAQ */
+        .faq-ans { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
+        
         #header-badge-container { cursor: pointer; user-select: none; }
     </style>
 </head>
@@ -90,57 +92,90 @@
         
         <div id="main-content" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
 
-        <div id="features-section" class="mt-28 product-item" style="animation-delay: 400ms">
-            <div class="text-center mb-16 max-w-2xl mx-auto px-4">
-                <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
-                <p class="text-slate-400 text-base md:text-lg">Solusi hosting dan bot generasi baru, fokus pada performa, keamanan, dan kemudahan untuk developer.</p>
-            </div>
+        <div id="dashboard-extras" class="hidden">
             
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
-                    <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
-                        <i class="fa-solid fa-microchip"></i>
+            <div class="mt-28 product-item" style="animation-delay: 400ms">
+                <div class="text-center mb-16 max-w-2xl mx-auto px-4">
+                    <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
+                    <p class="text-slate-400 text-base md:text-lg">Infrastruktur kelas enterprise dengan harga terjangkau untuk kebutuhan bot kamu.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                            <i class="fa-solid fa-microchip"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Optimized CPU</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Resource prosesor terisolasi menjamin performa maksimal tanpa gangguan tetangga. Bot kamu tetap responsif setiap saat.</p>
+                        </div>
                     </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-3">Panel Bot Teroptimasi</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed">Resource prosesor terisolasi (CPU 100%+) menjamin performa maksimal tanpa gangguan "tetangga". Bot kamu dijamin 24/7 anti suspend!</p>
+
+                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                            <i class="fa-solid fa-robot"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Sewa Bot Praktis</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Tanpa ribet instalasi. Cukup sewa, bot otomatis masuk ke grup kamu dengan fitur premium yang siap digunakan 24 jam.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                            <i class="fa-solid fa-file-code"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Script Bot No Error</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Semua script yang kami jual telah melalui tahap testing ketat untuk memastikan tidak ada error logis maupun sistem.</p>
+                        </div>
+                    </div>
+
+                    <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                        <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                            <i class="fa-solid fa-hand-holding-heart"></i>
+                        </div>
+                        <div>
+                            <h3 class="text-2xl font-bold text-white mb-3">Legal & Aman</h3>
+                            <p class="text-slate-400 text-sm leading-relaxed">Infrastruktur legal menjamin data Anda aman dari suspend sepihak. Kami memberikan garansi penuh sesuai masa aktif.</p>
+                        </div>
                     </div>
                 </div>
+            </div>
 
-                <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
-                    <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
-                        <i class="fa-solid fa-file-code"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-3">Script Bot Legal & No Error</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed">Koleksi script bot WhatsApp & RPG terbaru (v15+) yang legal, bersih dari backdoor, dan teruji "no error" sebelum kami jual.</p>
-                    </div>
+            <div class="mt-28 product-item" style="animation-delay: 500ms">
+                <div class="text-center mb-10">
+                    <h2 class="text-2xl font-bold text-white mb-2">Punya Pertanyaan?</h2>
+                    <p class="text-slate-500 text-sm">Beberapa hal yang sering ditanyakan pelanggan</p>
                 </div>
+                
+                <div class="max-w-3xl mx-auto space-y-4">
+                    <div class="glass-card rounded-[1.5rem] border border-white/5 overflow-hidden">
+                        <button onclick="toggleFAQ(1)" class="w-full p-6 text-left flex justify-between items-center group">
+                            <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors text-sm md:text-base">Berapa lama proses pengiriman?</span>
+                            <i id="faq-icon-1" class="fa-solid fa-chevron-down text-blue-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="faq-ans-1" class="faq-ans bg-white/5">
+                            <p class="px-6 pb-6 text-xs md:text-sm text-slate-400 leading-relaxed">Proses pengerjaan biasanya memakan waktu 5-15 menit setelah pembayaran dikonfirmasi.</p>
+                        </div>
+                    </div>
 
-                <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
-                    <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
-                        <i class="fa-solid fa-shield-virus"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-3">Sistem Mitigasi DDoS</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed">Infrastruktur kami dilengkapi sistem mitigasi otomatis yang memfilter traffic jahat (DDoS), menjaga bot kamu tetap online meski diserang.</p>
-                    </div>
-                </div>
-
-                <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
-                    <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
-                        <i class="fa-solid fa-handshake-angle"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-2xl font-bold text-white mb-3">Garansi Full & Support Ahli</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed">Garansi penuh sesuai masa aktif produk. Jasa Fix Bot kami siap membantu menangani error logis rumit yang kamu hadapi.</p>
+                    <div class="glass-card rounded-[1.5rem] border border-white/5 overflow-hidden">
+                        <button onclick="toggleFAQ(2)" class="w-full p-6 text-left flex justify-between items-center group">
+                            <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors text-sm md:text-base">Apakah metode pembayarannya lengkap?</span>
+                            <i id="faq-icon-2" class="fa-solid fa-chevron-down text-blue-400 transition-transform duration-300"></i>
+                        </button>
+                        <div id="faq-ans-2" class="faq-ans bg-white/5">
+                            <p class="px-6 pb-6 text-xs md:text-sm text-slate-400 leading-relaxed">Ya! Kami mendukung pembayaran via DANA, GOPAY, OVO, dan QRIS All Payment.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
+
     </main>
 
-    <footer class="mt-24 text-center text-slate-600 text-[11px] uppercase tracking-[0.2em] font-bold pb-10">
+    <footer class="mt-24 text-center text-slate-600 text-[10px] uppercase tracking-[0.2em] font-bold pb-10">
         © 2026 Dhikzx Cloud Enterprise. Made with ❤️ by Dimas.
     </footer>
 
@@ -221,7 +256,7 @@
         const subTitleElem = document.getElementById('sub-title');
         const footerElem = document.getElementById('rules-footer');
         const progressFill = document.getElementById('modal-progress');
-        const featuresSection = document.getElementById('features-section');
+        const dashboardExtras = document.getElementById('dashboard-extras');
 
         window.onload = () => {
             document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">${CONFIG_STORE.header.badge}</span>`;
@@ -236,38 +271,26 @@
             document.getElementById('rules-title').innerText = CONFIG_STORE.rules.title;
             document.getElementById('rules-icon-container').innerHTML = `<i class="fa-solid ${CONFIG_STORE.rules.icon}"></i>`;
             document.getElementById('rules-content').innerHTML = CONFIG_STORE.rules.list.map((r, i) => `<p>${i+1}. ${r}</p>`).join('');
-            
             progressFill.style.animationDuration = `${CONFIG_STORE.rules.duration}s`;
             progressFill.classList.add('run-progress');
-
             let timeLeft = CONFIG_STORE.rules.duration;
             footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
-
             const countdownInterval = setInterval(() => {
                 timeLeft--;
                 if (timeLeft >= 1) footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
-                else {
-                    clearInterval(countdownInterval);
-                    closeModal();
-                }
+                else { clearInterval(countdownInterval); closeModal(); }
             }, 1000);
         }
 
         function closeModal() {
             modal.classList.add('modal-hide');
             overlay.style.opacity = '0';
-            setTimeout(() => {
-                overlay.classList.add('hidden');
-                progressFill.classList.remove('run-progress');
-            }, 600);
+            setTimeout(() => { overlay.classList.add('hidden'); progressFill.classList.remove('run-progress'); }, 600);
         }
 
         function openModal() {
             overlay.classList.remove('hidden');
-            setTimeout(() => {
-                overlay.style.opacity = '1';
-                modal.classList.remove('modal-hide');
-            }, 10);
+            setTimeout(() => { overlay.style.opacity = '1'; modal.classList.remove('modal-hide'); }, 10);
         }
 
         function confirmPurchase(name, cat, price, customMsg) {
@@ -280,52 +303,40 @@
                     <p class="text-white font-bold text-lg">${name}</p>
                     <p class="text-slate-400 text-sm">${price}</p>
                 </div>
-                <p class="text-xs text-slate-500 italic">"Memproses data pesanan kamu..."</p>
             `;
-            
             progressFill.style.animationDuration = `3s`;
             progressFill.classList.add('run-progress');
-
             let timeLeft = 3;
             footerElem.innerText = `Menyiapkan WhatsApp dalam ${timeLeft}...`;
-
             const countdown = setInterval(() => {
                 timeLeft--;
                 if (timeLeft >= 1) footerElem.innerText = `Menyiapkan WhatsApp dalam ${timeLeft}...`;
                 else {
                     clearInterval(countdown);
-                    footerElem.innerHTML = `
-                        <button onclick="buyViaWA('${name}', '${cat}', '${price}', '${customMsg}')" 
-                                class="btn-primary w-full py-3 rounded-xl font-bold text-white text-xs mt-2 shadow-lg shadow-blue-500/20">
-                            LANJUT KE WHATSAPP <i class="fa-solid fa-arrow-right ml-1"></i>
-                        </button>
-                        <button onclick="closeModal()" class="block w-full text-center text-[10px] text-slate-500 mt-3 font-bold uppercase">Batal</button>
-                    `;
+                    footerElem.innerHTML = `<button onclick="buyViaWA('${name}', '${cat}', '${price}', '${customMsg}')" class="btn-primary w-full py-3 rounded-xl font-bold text-white text-xs mt-2 shadow-lg shadow-blue-500/20">LANJUT KE WHATSAPP <i class="fa-solid fa-arrow-right ml-1"></i></button><button onclick="closeModal()" class="block w-full text-center text-[10px] text-slate-500 mt-3 font-bold uppercase">Batal</button>`;
                 }
             }, 1000);
         }
 
+        function toggleFAQ(id) {
+            const ans = document.getElementById(`faq-ans-${id}`);
+            const icon = document.getElementById(`faq-icon-${id}`);
+            const isOpen = ans.style.maxHeight !== '0px' && ans.style.maxHeight !== '';
+            document.querySelectorAll('.faq-ans').forEach(el => el.style.maxHeight = '0px');
+            document.querySelectorAll('[id^="faq-icon-"]').forEach(el => el.style.transform = 'rotate(0deg)');
+            if (!isOpen) { ans.style.maxHeight = ans.scrollHeight + 'px'; icon.style.transform = 'rotate(180deg)'; }
+        }
+
         function renderCategories() {
             navArea.classList.add('hidden');
-            featuresSection.classList.remove('hidden'); // Tampilkan Keunggulan di dashboard
+            dashboardExtras.classList.remove('hidden');
             subTitleElem.innerText = CONFIG_STORE.header.sub;
             mainContent.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
-            
-            mainContent.innerHTML = Object.keys(CONFIG_STORE.categories)
-            .filter(key => key !== 'dev-menu')
-            .map((key, index) => {
+            mainContent.innerHTML = Object.keys(CONFIG_STORE.categories).filter(key => key !== 'dev-menu').map((key, index) => {
                 const cat = CONFIG_STORE.categories[key];
-                return `
-                <div onclick="renderProducts('${key}')" 
-                     class="product-item glass-card rounded-[2rem] p-8 cursor-pointer flex items-center gap-6"
-                     style="animation-delay: ${index * 100}ms">
-                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl text-blue-400 bg-blue-500/10 border border-blue-500/20">
-                        <i class="fa-solid ${cat.icon}"></i>
-                    </div>
-                    <div>
-                        <h3 class="text-xl font-bold text-white">${cat.title}</h3>
-                        <p class="text-slate-400 text-sm">${cat.desc}</p>
-                    </div>
+                return `<div onclick="renderProducts('${key}')" class="product-item glass-card rounded-[2rem] p-8 cursor-pointer flex items-center gap-6" style="animation-delay: ${index * 100}ms">
+                    <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl text-blue-400 bg-blue-500/10 border border-blue-500/20"><i class="fa-solid ${cat.icon}"></i></div>
+                    <div><h3 class="text-xl font-bold text-white">${cat.title}</h3><p class="text-slate-400 text-sm">${cat.desc}</p></div>
                 </div>`;
             }).join('');
         }
@@ -333,41 +344,21 @@
         function renderProducts(categoryKey) {
             const category = CONFIG_STORE.categories[categoryKey];
             navArea.classList.remove('hidden');
-            featuresSection.classList.add('hidden'); // Sembunyikan Keunggulan saat melihat produk
+            dashboardExtras.classList.add('hidden');
             subTitleElem.innerText = `Menampilkan ${category.title}`;
             mainContent.className = "grid grid-cols-1 md:grid-cols-3 gap-6";
-
             mainContent.innerHTML = category.products.map((p, index) => {
-                const action = p.type === "link" 
-                    ? `window.open('${p.url}', '_blank')` 
-                    : `confirmPurchase('${p.name}', '${category.title}', '${p.price}', '${p.msg || ""}')`;
-                const btnIcon = p.type === "link" ? "fa-arrow-up-right-from-square" : "fa-brands fa-whatsapp";
-                const btnText = p.type === "link" ? "Buka Halaman" : "Beli Sekarang";
-
-                return `
-                <div class="product-item glass-card rounded-[2rem] p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30"
-                     style="animation-delay: ${index * 100}ms">
-                    <div>
-                        <div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-2">${category.title}</div>
-                        <h3 class="text-lg font-bold text-white mb-2">${p.name}</h3>
-                        <p class="text-slate-400 text-xs mb-6 pb-4 border-b border-white/5 leading-relaxed">${p.spec}</p>
-                    </div>
-                    <div>
-                        <div class="text-2xl font-bold text-white mb-5">${p.price}</div>
-                        <button onclick="${action}" 
-                                class="btn-primary w-full py-3.5 rounded-2xl font-bold text-white text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-500/20">
-                            <i class="fa-solid ${btnIcon} text-lg"></i>
-                            ${btnText}
-                        </button>
-                    </div>
+                const action = p.type === "link" ? `window.open('${p.url}', '_blank')` : `confirmPurchase('${p.name}', '${category.title}', '${p.price}', '${p.msg || ""}')`;
+                return `<div class="product-item glass-card rounded-[2rem] p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30" style="animation-delay: ${index * 100}ms">
+                    <div><div class="text-[10px] font-bold text-blue-400 uppercase tracking-widest mb-2">${category.title}</div><h3 class="text-lg font-bold text-white mb-2">${p.name}</h3><p class="text-slate-400 text-xs mb-6 pb-4 border-b border-white/5 leading-relaxed">${p.spec}</p></div>
+                    <div><div class="text-2xl font-bold text-white mb-5">${p.price}</div><button onclick="${action}" class="btn-primary w-full py-3.5 rounded-2xl font-bold text-white text-xs flex items-center justify-center gap-2"><i class="fa-solid ${p.type === 'link' ? 'fa-arrow-up-right-from-square' : 'fa-brands fa-whatsapp'} text-lg"></i> ${p.type === 'link' ? 'Buka Halaman' : 'Beli Sekarang'}</button></div>
                 </div>`;
             }).join('');
         }
 
         function buyViaWA(name, cat, price, customMsg) {
             const detailOrder = `\n\n📦 Kategori: *${cat}*\n🚀 Produk: *${name}*\n💰 Harga: *${price}*`;
-            const msg = customMsg ? `${customMsg}${detailOrder}` : `Halo Dhikzx Store, saya mau order:${detailOrder}\n\nMohon instruksi pembayarannya.`;
-            window.open(`https://wa.me/${CONFIG_STORE.waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            window.open(`https://wa.me/${CONFIG_STORE.waNumber}?text=${encodeURIComponent(customMsg + detailOrder)}`, '_blank');
             closeModal();
         }
     </script>

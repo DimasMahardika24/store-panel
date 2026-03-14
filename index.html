@@ -60,9 +60,6 @@
 
         /* Extra Style untuk Badge Klik */
         #header-badge-container { cursor: pointer; user-select: none; }
-        
-        /* FAQ Styling */
-        .faq-ans { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
     </style>
 </head>
 <body class="pb-20">
@@ -93,48 +90,58 @@
         
         <div id="main-content" class="grid grid-cols-1 md:grid-cols-2 gap-6"></div>
 
-        <div id="faq-section" class="mt-20 product-item" style="animation-delay: 400ms">
-            <div class="text-center mb-10">
-                <h2 class="text-2xl font-bold text-white mb-2">Punya Pertanyaan?</h2>
-                <p class="text-slate-500 text-sm">Hal-hal yang paling sering ditanyakan pelanggan</p>
+        <div id="features-section" class="mt-28 product-item" style="animation-delay: 400ms">
+            <div class="text-center mb-16 max-w-2xl mx-auto px-4">
+                <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-4 leading-tight">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
+                <p class="text-slate-400 text-base md:text-lg">Solusi hosting dan bot generasi baru, fokus pada performa, keamanan, dan kemudahan untuk developer.</p>
             </div>
             
-            <div class="max-w-3xl mx-auto space-y-4">
-                <div class="glass-card rounded-[1.5rem] border border-white/5 overflow-hidden">
-                    <button onclick="toggleFAQ(1)" class="w-full p-6 text-left flex justify-between items-center group">
-                        <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors">Berapa lama proses pengiriman?</span>
-                        <i id="faq-icon-1" class="fa-solid fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-                    </button>
-                    <div id="faq-ans-1" class="faq-ans bg-white/5">
-                        <p class="px-6 pb-6 text-sm text-slate-400 leading-relaxed">Proses pengerjaan biasanya memakan waktu 5-15 menit setelah pembayaran dikonfirmasi, tergantung antrean pesanan.</p>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                    <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                        <i class="fa-solid fa-microchip"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Panel Bot Teroptimasi</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Resource prosesor terisolasi (CPU 100%+) menjamin performa maksimal tanpa gangguan "tetangga". Bot kamu dijamin 24/7 anti suspend!</p>
                     </div>
                 </div>
 
-                <div class="glass-card rounded-[1.5rem] border border-white/5 overflow-hidden">
-                    <button onclick="toggleFAQ(2)" class="w-full p-6 text-left flex justify-between items-center group">
-                        <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors">Apakah server aman dari suspend?</span>
-                        <i id="faq-icon-2" class="fa-solid fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-                    </button>
-                    <div id="faq-ans-2" class="faq-ans bg-white/5">
-                        <p class="px-6 pb-6 text-sm text-slate-400 leading-relaxed">Tentu! Selama tidak melanggar aturan penggunaan (DDoS, Mining, dsb), server kamu akan tetap aman. Kami memberikan garansi penuh sesuai masa aktif.</p>
+                <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                    <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                        <i class="fa-solid fa-file-code"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Script Bot Legal & No Error</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Koleksi script bot WhatsApp & RPG terbaru (v15+) yang legal, bersih dari backdoor, dan teruji "no error" sebelum kami jual.</p>
                     </div>
                 </div>
 
-                <div class="glass-card rounded-[1.5rem] border border-white/5 overflow-hidden">
-                    <button onclick="toggleFAQ(3)" class="w-full p-6 text-left flex justify-between items-center group">
-                        <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors">Metode pembayaran apa saja?</span>
-                        <i id="faq-icon-3" class="fa-solid fa-chevron-down text-blue-400 transition-transform duration-300"></i>
-                    </button>
-                    <div id="faq-ans-3" class="faq-ans bg-white/5">
-                        <p class="px-6 pb-6 text-sm text-slate-400 leading-relaxed">Kami menerima pembayaran via DANA, GOPAY, OVO, dan QRIS All Payment.</p>
+                <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                    <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                        <i class="fa-solid fa-shield-virus"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Sistem Mitigasi DDoS</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Infrastruktur kami dilengkapi sistem mitigasi otomatis yang memfilter traffic jahat (DDoS), menjaga bot kamu tetap online meski diserang.</p>
+                    </div>
+                </div>
+
+                <div class="glass-card rounded-[2rem] p-8 flex flex-col gap-6">
+                    <div class="w-16 h-16 rounded-3xl flex items-center justify-center text-3xl text-blue-400 bg-blue-500/10 border border-blue-500/20 self-start">
+                        <i class="fa-solid fa-handshake-angle"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-2xl font-bold text-white mb-3">Garansi Full & Support Ahli</h3>
+                        <p class="text-slate-400 text-sm leading-relaxed">Garansi penuh sesuai masa aktif produk. Jasa Fix Bot kami siap membantu menangani error logis rumit yang kamu hadapi.</p>
                     </div>
                 </div>
             </div>
         </div>
     </main>
 
-    <footer class="mt-20 text-center text-slate-600 text-[10px] uppercase tracking-widest font-bold">
-        © 2026 Dhikzx Cloud — All Rights Reserved
+    <footer class="mt-24 text-center text-slate-600 text-[11px] uppercase tracking-[0.2em] font-bold pb-10">
+        © 2026 Dhikzx Cloud Enterprise. Made with ❤️ by Dimas.
     </footer>
 
     <script>
@@ -214,7 +221,7 @@
         const subTitleElem = document.getElementById('sub-title');
         const footerElem = document.getElementById('rules-footer');
         const progressFill = document.getElementById('modal-progress');
-        const faqSection = document.getElementById('faq-section');
+        const featuresSection = document.getElementById('features-section');
 
         window.onload = () => {
             document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">${CONFIG_STORE.header.badge}</span>`;
@@ -298,24 +305,9 @@
             }, 1000);
         }
 
-        function toggleFAQ(id) {
-            const ans = document.getElementById(`faq-ans-${id}`);
-            const icon = document.getElementById(`faq-icon-${id}`);
-            const isOpen = ans.style.maxHeight !== '0px' && ans.style.maxHeight !== '';
-
-            // Tutup semua FAQ yang lain
-            document.querySelectorAll('.faq-ans').forEach(el => el.style.maxHeight = '0px');
-            document.querySelectorAll('[id^="faq-icon-"]').forEach(el => el.style.transform = 'rotate(0deg)');
-
-            if (!isOpen) {
-                ans.style.maxHeight = ans.scrollHeight + 'px';
-                icon.style.transform = 'rotate(180deg)';
-            }
-        }
-
         function renderCategories() {
             navArea.classList.add('hidden');
-            faqSection.classList.remove('hidden'); // Tampilkan FAQ di dashboard
+            featuresSection.classList.remove('hidden'); // Tampilkan Keunggulan di dashboard
             subTitleElem.innerText = CONFIG_STORE.header.sub;
             mainContent.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
             
@@ -341,7 +333,7 @@
         function renderProducts(categoryKey) {
             const category = CONFIG_STORE.categories[categoryKey];
             navArea.classList.remove('hidden');
-            faqSection.classList.add('hidden'); // Sembunyikan FAQ saat melihat produk
+            featuresSection.classList.add('hidden'); // Sembunyikan Keunggulan saat melihat produk
             subTitleElem.innerText = `Menampilkan ${category.title}`;
             mainContent.className = "grid grid-cols-1 md:grid-cols-3 gap-6";
 

@@ -4,84 +4,54 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Dhikzx Cloud — Simple Store</title>
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
-    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="config.js"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
-        
-        :root {
-            --bg-deep: #0a0f1a;
-            --accent: #38bdf8;
-        }
-
-        body { 
-            background: var(--bg-deep); 
-            color: #f8fafc; 
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 25%),
-                radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.08) 0%, transparent 25%);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Glassmorphism */
-        .glass-card {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(16px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
-        }
+        :root { --bg-deep: #0a0f1a; --accent: #38bdf8; }
+        body { background: var(--bg-deep); color: #f8fafc; font-family: 'Plus Jakarta Sans', sans-serif; min-height: 100vh; overflow-x: hidden; background-image: radial-gradient(circle at 0% 0%, rgba(56, 189, 248, 0.08) 0%, transparent 25%), radial-gradient(circle at 100% 100%, rgba(129, 140, 248, 0.08) 0%, transparent 25%); }
+        .glass-card { background: rgba(30, 41, 59, 0.4); backdrop-filter: blur(16px); border: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.4s ease; }
         .glass-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-5px); }
-
-        /* Animations */
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        .product-item { opacity: 0; animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
-        
-        .progress-fill { height: 100%; background: linear-gradient(to right, #38bdf8, #818cf8); width: 100%; }
-        .run-progress { animation: progressRun linear forwards; }
-        @keyframes progressRun { from { width: 100% } to { width: 0% } }
-
+        .product-item { opacity: 0; animation: slideUp 0.6s ease forwards; }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
         .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .btn-primary { background: linear-gradient(135deg, #38bdf8, #2563eb); transition: 0.3s; }
         .btn-primary:active { transform: scale(0.95); }
-
         .faq-ans { max-height: 0; overflow: hidden; transition: max-height 0.3s ease-out; }
-        
-        /* Modal Style */
         #welcome-modal { transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1); }
         .modal-hide { opacity: 0; transform: translate(-50%, -60%) scale(0.9) !important; pointer-events: none; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, #38bdf8, #818cf8); width: 100%; }
+        .run-progress { animation: progressRun linear forwards; }
+        @keyframes progressRun { from { width: 100% } to { width: 0% } }
     </style>
 </head>
 <body class="pb-20">
 
     <div id="modal-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-md z-[99] transition-opacity duration-500 opacity-100"></div>
-    <div id="welcome-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md glass-card p-8 rounded-[2.5rem] border border-white/10 shadow-2xl">
-        <div id="modal-content" class="text-center">
+    <div id="welcome-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md glass-card p-8 rounded-[2.5rem]">
+        <div class="text-center">
             <div id="rules-icon-container" class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl text-blue-400 mx-auto mb-4"></div>
             <h2 id="rules-title" class="text-2xl font-bold mb-2 text-white"></h2>
-            <div id="rules-content" class="text-slate-400 text-sm leading-relaxed space-y-1 mb-4"></div>
-            <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden"><div id="modal-progress" class="progress-fill"></div></div>
-            <p id="rules-footer" class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest font-bold"></p>
+            <div id="rules-content" class="text-slate-400 text-sm space-y-1 mb-4 text-left px-4"></div>
+            <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden mt-4"><div id="modal-progress" class="progress-fill"></div></div>
+            <p id="rules-footer" class="text-[10px] text-slate-500 mt-2 uppercase font-bold"></p>
         </div>
     </div>
 
     <header class="pt-16 pb-12 text-center">
-        <div id="header-badge-container" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4 product-item"></div>
-        <h1 id="main-title" class="text-4xl lg:text-6xl font-extrabold tracking-tight mb-2 product-item" style="animation-delay: 100ms"></h1>
-        <p id="sub-title" class="text-slate-500 text-sm product-item" style="animation-delay: 200ms"></p>
+        <div id="header-badge-container" class="inline-block px-4 py-1.5 rounded-full bg-blue-500/10 border border-blue-500/20 mb-4"></div>
+        <h1 id="main-title" class="text-4xl lg:text-6xl font-extrabold tracking-tight mb-2"></h1>
+        <p id="sub-title" class="text-slate-500 text-sm"></p>
     </header>
 
     <main class="container mx-auto px-6 max-w-6xl">
         <div id="navigation-area" class="mb-8 hidden">
-            <button onclick="renderCategories()" class="flex items-center gap-2 text-slate-400 hover:text-white transition-all group">
-                <i class="fa-solid fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Kembali ke Kategori
+            <button onclick="renderCategories()" class="text-slate-400 hover:text-white flex items-center gap-2">
+                <i class="fa-solid fa-arrow-left"></i> Kembali ke Kategori
             </button>
         </div>
         
@@ -89,33 +59,28 @@
 
         <div id="dashboard-extras" class="hidden">
             <div class="mt-40 mb-20 text-center">
-                <h2 class="text-4xl md:text-5xl font-extrabold text-white mb-16">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
+                <h2 class="text-4xl font-extrabold text-white mb-16">Kenapa Memilih <span class="gradient-text">Kami?</span></h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto text-left">
                     <div class="glass-card rounded-[2.5rem] p-8 flex flex-col gap-4 border-l-4 border-l-blue-500/50">
                         <i class="fa-solid fa-microchip text-2xl text-blue-400"></i>
                         <h3 class="text-xl font-bold text-white">Optimized CPU</h3>
-                        <p class="text-slate-400 text-sm">Resource prosesor terisolasi menjamin performa maksimal tanpa gangguan sistem lain.</p>
+                        <p class="text-slate-400 text-sm">Resource terisolasi untuk bot yang stabil dan responsif.</p>
                     </div>
                     <div class="glass-card rounded-[2.5rem] p-8 flex flex-col gap-4 border-l-4 border-l-blue-500/50">
                         <i class="fa-solid fa-robot text-2xl text-blue-400"></i>
                         <h3 class="text-xl font-bold text-white">Sewa Bot Praktis</h3>
-                        <p class="text-slate-400 text-sm">Bot otomatis masuk grup kamu dengan fitur premium siap digunakan tanpa ribet.</p>
+                        <p class="text-slate-400 text-sm">Bot otomatis masuk grup, fitur premium siap pakai tanpa ribet.</p>
                     </div>
                 </div>
             </div>
-
             <div class="mt-40">
-                <div class="text-center mb-12">
-                    <h2 class="text-3xl font-bold text-white">Pertanyaan Populer</h2>
-                </div>
+                <div class="text-center mb-12"><h2 class="text-3xl font-bold text-white">Pertanyaan Populer</h2></div>
                 <div id="faq-container" class="max-w-3xl mx-auto space-y-3"></div>
             </div>
         </div>
     </main>
 
-    <footer class="mt-32 text-center text-slate-600 text-[10px] uppercase tracking-[0.2em] font-bold pb-10">
-        © 2026 Dhikzx Cloud Enterprise.
-    </footer>
+    <footer class="mt-32 text-center text-slate-600 text-[10px] uppercase font-bold pb-10 tracking-widest">© 2026 Dhikzx Cloud.</footer>
 
     <script>
         const modal = document.getElementById('welcome-modal');
@@ -124,32 +89,27 @@
         const dashboardExtras = document.getElementById('dashboard-extras');
 
         window.onload = () => {
-            // Cek apakah data dari config.js terbaca
             if (typeof CONFIG_STORE !== 'undefined') {
                 initApp();
             } else {
-                console.error("config.js tidak ditemukan!");
-                alert("File config.js belum ada atau salah nama!");
+                alert("File config.js tidak ditemukan!");
             }
         };
 
         function initApp() {
-            // Load Header
             document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold uppercase tracking-widest">${CONFIG_STORE.header.badge}</span>`;
             document.getElementById('main-title').innerHTML = CONFIG_STORE.header.title;
             document.getElementById('sub-title').innerText = CONFIG_STORE.header.sub;
             
-            // Load FAQ
             const faqBox = document.getElementById('faq-container');
             faqBox.innerHTML = CONFIG_STORE.faqs.map((f, i) => `
                 <div class="glass-card rounded-2xl overflow-hidden">
                     <button onclick="toggleFAQ(${i})" class="w-full p-5 text-left flex justify-between items-center group">
-                        <span class="font-semibold text-slate-200 group-hover:text-blue-400 transition-colors">${f.q}</span>
+                        <span class="font-semibold text-slate-200 group-hover:text-blue-400">${f.q}</span>
                         <i id="faq-icon-${i}" class="fa-solid fa-chevron-down text-blue-400 transition-transform"></i>
                     </button>
                     <div id="faq-ans-${i}" class="faq-ans bg-white/5"><p class="px-5 pb-5 text-sm text-slate-400">${f.a}</p></div>
                 </div>`).join('');
-
             showRulesModal();
             renderCategories();
         }
@@ -158,24 +118,18 @@
             document.getElementById('rules-title').innerText = CONFIG_STORE.rules.title;
             document.getElementById('rules-icon-container').innerHTML = `<i class="fa-solid ${CONFIG_STORE.rules.icon}"></i>`;
             document.getElementById('rules-content').innerHTML = CONFIG_STORE.rules.list.map((r, i) => `<p>${i+1}. ${r}</p>`).join('');
-            
-            const progress = document.getElementById('modal-progress');
-            progress.style.animationDuration = `${CONFIG_STORE.rules.duration}s`;
-            progress.classList.add('run-progress');
-
+            const prog = document.getElementById('modal-progress');
+            prog.style.animationDuration = `${CONFIG_STORE.rules.duration}s`;
+            prog.classList.add('run-progress');
             let timeLeft = CONFIG_STORE.rules.duration;
             const timer = setInterval(() => {
                 timeLeft--;
-                document.getElementById('rules-footer').innerText = `Menutup otomatis dalam ${timeLeft} detik`;
+                document.getElementById('rules-footer').innerText = `Menutup dalam ${timeLeft}s`;
                 if(timeLeft <= 0) { clearInterval(timer); closeModal(); }
             }, 1000);
         }
 
-        function closeModal() {
-            modal.classList.add('modal-hide');
-            overlay.style.opacity = '0';
-            setTimeout(() => overlay.classList.add('hidden'), 600);
-        }
+        function closeModal() { modal.classList.add('modal-hide'); overlay.style.opacity = '0'; setTimeout(() => overlay.classList.add('hidden'), 600); }
 
         function toggleFAQ(id) {
             const ans = document.getElementById(`faq-ans-${id}`);
@@ -191,40 +145,53 @@
             dashboardExtras.classList.remove('hidden');
             document.getElementById('sub-title').innerText = CONFIG_STORE.header.sub;
             mainContent.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6";
-            
             mainContent.innerHTML = Object.keys(CONFIG_STORE.categories).map((key, index) => {
                 const cat = CONFIG_STORE.categories[key];
-                return `<div onclick="renderProducts('${key}')" class="product-item glass-card rounded-[2rem] p-8 cursor-pointer flex flex-col items-center text-center gap-4" style="animation-delay: ${index * 100}ms">
+                return `<div onclick="renderProducts('${key}')" class="product-item glass-card rounded-[2rem] p-8 cursor-pointer flex flex-col items-center text-center gap-4" style="animation-delay: ${index*100}ms">
                     <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-2xl text-blue-400 bg-blue-500/10 border border-blue-500/20"><i class="fa-solid ${cat.icon}"></i></div>
-                    <h3 class="text-xl font-bold text-white">${cat.title}</h3>
-                    <p class="text-slate-400 text-xs">${cat.desc}</p>
+                    <h3 class="text-xl font-bold text-white">${cat.title}</h3><p class="text-slate-400 text-xs">${cat.desc}</p>
                 </div>`;
             }).join('');
         }
 
-        function renderProducts(categoryKey) {
-            const category = CONFIG_STORE.categories[categoryKey];
+        function renderProducts(key) {
+            const cat = CONFIG_STORE.categories[key];
             document.getElementById('navigation-area').classList.remove('hidden');
             dashboardExtras.classList.add('hidden');
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            document.getElementById('sub-title').innerText = `Menampilkan ${category.title}`;
+            document.getElementById('sub-title').innerText = `Menampilkan ${cat.title}`;
             mainContent.className = "grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6";
             
-            mainContent.innerHTML = category.products.map((p, index) => `
-                <div class="product-item glass-card rounded-[2.5rem] p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30" style="animation-delay: ${index * 100}ms">
+            mainContent.innerHTML = cat.products.map((p, i) => `
+                <div class="product-item glass-card rounded-[2.5rem] p-6 flex flex-col justify-between border-t-4 border-t-blue-500/30" style="animation-delay: ${i*100}ms">
                     <div>
-                        <div class="text-[10px] font-bold text-blue-400 uppercase mb-2">${category.title}</div>
-                        <h3 class="text-lg font-bold text-white mb-2">${p.name}</h3>
-                        <p class="text-slate-400 text-xs mb-6 pb-4 border-b border-white/5">${p.spec}</p>
+                        <div class="text-[10px] font-bold text-blue-400 uppercase mb-2">${cat.title}</div>
+                        <h3 class="text-lg font-bold text-white mb-1">${p.name}</h3>
+                        <p class="text-slate-200 text-xs font-semibold mb-2 italic">${p.spec}</p>
+                        <p class="text-slate-400 text-[11px] leading-relaxed mb-6 pb-4 border-b border-white/5">${p.desc || ''}</p>
                     </div>
                     <div>
                         <div class="text-2xl font-bold text-white mb-5">${p.price}</div>
-                        <button onclick="buyViaWA('${p.name}', '${category.title}', '${p.price}', '${p.msg}')" class="btn-primary w-full py-4 rounded-2xl font-bold text-white text-xs flex items-center justify-center gap-2 shadow-lg shadow-blue-500/10">
+                        <button onclick="confirmPurchase('${p.name}', '${cat.title}', '${p.price}', '${p.msg}')" class="btn-primary w-full py-4 rounded-2xl font-bold text-white text-xs flex items-center justify-center gap-2">
                             <i class="fa-brands fa-whatsapp text-lg"></i> Beli Sekarang
                         </button>
                     </div>
                 </div>`).join('');
+        }
+
+        function confirmPurchase(name, cat, price, msg) {
+            Swal.fire({
+                title: 'Konfirmasi Pesanan',
+                text: `Mau beli ${name} seharga ${price}?`,
+                icon: 'question',
+                showCancelButton: true,
+                confirmButtonColor: '#38bdf8',
+                cancelButtonColor: '#1e293b',
+                confirmButtonText: 'Ya, Lanjut WA',
+                cancelButtonText: 'Batal',
+                background: '#0a0f1a',
+                color: '#fff'
+            }).then((res) => { if (res.isConfirmed) buyViaWA(name, cat, price, msg); });
         }
 
         function buyViaWA(name, cat, price, msg) {

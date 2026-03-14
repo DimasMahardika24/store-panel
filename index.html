@@ -49,9 +49,11 @@
         }
         .product-item { opacity: 0; animation: slideUp 0.6s cubic-bezier(0.23, 1, 0.32, 1) forwards; }
         .progress-container { width: 100%; height: 4px; background: rgba(255,255,255,0.1); border-radius: 10px; overflow: hidden; margin-top: 15px; }
-        .progress-fill { height: 100%; background: linear-gradient(to right, #38bdf8, #818cf8); width: 100%; animation: progressRun 5s linear forwards; }
+        .progress-fill { height: 100%; background: linear-gradient(to right, #38bdf8, #818cf8); width: 100%; }
         
+        .run-progress { animation: progressRun linear forwards; }
         @keyframes progressRun { from { width: 100% } to { width: 0% } }
+
         .gradient-text { background: linear-gradient(to right, #38bdf8, #818cf8); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
         .btn-primary { background: linear-gradient(135deg, #38bdf8, #2563eb); transition: 0.3s cubic-bezier(0.23, 1, 0.32, 1); }
         .btn-primary:active { transform: scale(0.95); }
@@ -64,11 +66,11 @@
 
     <div id="modal-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-md z-[99] transition-opacity duration-500 opacity-100"></div>
     <div id="welcome-modal" class="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-[100] w-[90%] max-w-md glass-card p-8 rounded-[2.5rem] border border-white/10 shadow-2xl">
-        <div class="text-center">
+        <div id="modal-content" class="text-center">
             <div id="rules-icon-container" class="w-16 h-16 bg-blue-500/20 rounded-2xl flex items-center justify-center text-3xl text-blue-400 mx-auto mb-4"></div>
             <h2 id="rules-title" class="text-2xl font-bold mb-2 text-white"></h2>
             <div id="rules-content" class="text-slate-400 text-sm leading-relaxed space-y-1 mb-4"></div>
-            <div class="progress-container"><div class="progress-fill"></div></div>
+            <div class="progress-container"><div id="modal-progress" class="progress-fill"></div></div>
             <p id="rules-footer" class="text-[10px] text-slate-500 mt-2 uppercase tracking-widest font-bold"></p>
         </div>
     </div>
@@ -113,9 +115,9 @@
                     icon: "fa-server",
                     desc: "Hosting bot 24/7 anti suspend.",
                     products: [
-                        { name: "Starter Panel", spec: "RAM 2GB | CPU 100%", price: "Rp 5.000" },
-                        { name: "Medium Panel", spec: "RAM 4GB | CPU 150%", price: "Rp 10.000" },
-                        { name: "Extreme Panel", spec: "RAM UNLIMITED | CPU 200%", price: "Rp 25.000" }
+                        { name: "Starter Panel", spec: "RAM 2GB | CPU 100%", price: "Rp 5.000", msg: "Halo Dhikzx, saya mau order Starter Panel spek 2GB. Mohon diproses ya!" },
+                        { name: "Medium Panel", spec: "RAM 4GB | CPU 150%", price: "Rp 10.000", msg: "Halo bang, saya mau beli Medium Panel RAM 4GB. Masih ready?" },
+                        { name: "Extreme Panel", spec: "RAM UNLIMITED | CPU 200%", price: "Rp 25.000", msg: "Assalamualaikum, mau order Extreme Panel RAM Unlimited spek gahar!" }
                     ]
                 },
                 "script-bot": {
@@ -123,8 +125,8 @@
                     icon: "fa-code",
                     desc: "Script siap pakai, no error.",
                     products: [
-                        { name: "Script Pushkontak", spec: "Fitur v15 Terbaru", price: "Rp 15.000" },
-                        { name: "Script Bot RPG", spec: "Full Game & Fitur", price: "Rp 30.000" }
+                        { name: "Script Pushkontak", spec: "Fitur v15 Terbaru", price: "Rp 15.000", msg: "Halo Dhikzx, minat Script Pushkontak v15 nih. Berapa harganya?" },
+                        { name: "Script Bot RPG", spec: "Full Game & Fitur", price: "Rp 30.000", msg: "Minat Script Bot RPG nya bang, pengen buat grup jadi seru!" }
                     ]
                 },
                 "sewa-bot": {
@@ -132,8 +134,8 @@
                     icon: "fa-robot",
                     desc: "Bot masuk ke grup kamu.",
                     products: [
-                        { name: "Sewa 1 Bulan", spec: "1 Grup + Fitur Premium", price: "Rp 10.000" },
-                        { name: "Sewa Permanen", spec: "Unlimited Time", price: "Rp 35.000" }
+                        { name: "Sewa 1 Bulan", spec: "1 Grup + Fitur Premium", price: "Rp 10.000", msg: "Bang, mau sewa bot buat di grup saya paket 1 bulan." },
+                        { name: "Sewa Permanen", spec: "Unlimited Time", price: "Rp 35.000", msg: "Izin order Sewa Bot Permanen buat grup pribadi saya bang." }
                     ]
                 },
                 "jasa-fix": {
@@ -141,11 +143,10 @@
                     icon: "fa-tools",
                     desc: "Benerin error script bot kamu.",
                     products: [
-                        { name: "Fix Error Ringan", spec: "Pengerjaan 10-30 Menit", price: "Rp 5.000" },
-                        { name: "Fix Error Logic", spec: "Pengerjaan 1-3 Jam", price: "Rp 15.000" }
+                        { name: "Fix Error Ringan", spec: "Pengerjaan 10-30 Menit", price: "Rp 5.000", msg: "Bang, script bot saya error dikit nih. Bisa bantu benerin?" },
+                        { name: "Fix Error Logic", spec: "Pengerjaan 1-3 Jam", price: "Rp 15.000", msg: "Script bot saya logic-nya berantakan, jasa fix-nya masih buka?" }
                     ]
                 },
-                // INI JENDELA PENGEMBANG (Easter Egg)
                 "dev-menu": {
                     title: "Jendela Pengembang",
                     icon: "fa-code-branch",
@@ -159,46 +160,106 @@
             }
         };
 
-        // Inisialisasi Teks
-        document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">${CONFIG_STORE.header.badge}</span>`;
-        document.getElementById('main-title').innerHTML = CONFIG_STORE.header.title;
-        document.getElementById('sub-title').innerText = CONFIG_STORE.header.sub;
-        document.getElementById('rules-title').innerText = CONFIG_STORE.rules.title;
-        document.getElementById('rules-icon-container').innerHTML = `<i class="fa-solid ${CONFIG_STORE.rules.icon}"></i>`;
-        document.getElementById('rules-content').innerHTML = CONFIG_STORE.rules.list.map((r, i) => `<p>${i+1}. ${r}</p>`).join('');
-
+        // UI Elements
+        const modal = document.getElementById('welcome-modal');
+        const overlay = document.getElementById('modal-overlay');
         const mainContent = document.getElementById('main-content');
         const navArea = document.getElementById('navigation-area');
         const subTitleElem = document.getElementById('sub-title');
         const footerElem = document.getElementById('rules-footer');
+        const progressFill = document.getElementById('modal-progress');
 
         window.onload = () => {
-            const modal = document.getElementById('welcome-modal');
-            const overlay = document.getElementById('modal-overlay');
+            // Inisialisasi Teks Header
+            document.getElementById('header-badge-container').innerHTML = `<span class="text-blue-400 text-[10px] font-bold tracking-widest uppercase">${CONFIG_STORE.header.badge}</span>`;
+            document.getElementById('main-title').innerHTML = CONFIG_STORE.header.title;
+            document.getElementById('sub-title').innerText = CONFIG_STORE.header.sub;
+            
+            // Rules Awal
+            showRulesModal();
+            renderCategories();
+        };
+
+        function showRulesModal() {
+            document.getElementById('rules-title').innerText = CONFIG_STORE.rules.title;
+            document.getElementById('rules-icon-container').innerHTML = `<i class="fa-solid ${CONFIG_STORE.rules.icon}"></i>`;
+            document.getElementById('rules-content').innerHTML = CONFIG_STORE.rules.list.map((r, i) => `<p>${i+1}. ${r}</p>`).join('');
+            
+            progressFill.style.animationDuration = `${CONFIG_STORE.rules.duration}s`;
+            progressFill.classList.add('run-progress');
+
             let timeLeft = CONFIG_STORE.rules.duration;
             footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
 
             const countdownInterval = setInterval(() => {
                 timeLeft--;
                 if (timeLeft >= 1) footerElem.innerText = `Menutup otomatis dalam ${timeLeft} detik`;
-                else clearInterval(countdownInterval);
+                else {
+                    clearInterval(countdownInterval);
+                    closeModal();
+                }
             }, 1000);
+        }
 
+        function closeModal() {
+            modal.classList.add('modal-hide');
+            overlay.style.opacity = '0';
             setTimeout(() => {
-                modal.classList.add('modal-hide');
-                overlay.style.opacity = '0';
-                setTimeout(() => overlay.remove(), 600);
-            }, CONFIG_STORE.rules.duration * 1000);
+                overlay.classList.add('hidden');
+                progressFill.classList.remove('run-progress');
+            }, 600);
+        }
 
-            renderCategories();
-        };
+        function openModal() {
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                overlay.style.opacity = '1';
+                modal.classList.remove('modal-hide');
+            }, 10);
+        }
+
+        function confirmPurchase(name, cat, price, customMsg) {
+            openModal();
+            
+            // Ubah Konten Modal Jadi Loading Konfirmasi
+            document.getElementById('rules-icon-container').innerHTML = `<i class="fa-solid fa-cart-shopping animate-bounce"></i>`;
+            document.getElementById('rules-title').innerText = "Konfirmasi Order";
+            document.getElementById('rules-content').innerHTML = `
+                <div class="bg-white/5 p-4 rounded-2xl border border-white/5 text-left mb-2">
+                    <p class="text-[10px] text-blue-400 font-bold uppercase tracking-wider">${cat}</p>
+                    <p class="text-white font-bold text-lg">${name}</p>
+                    <p class="text-slate-400 text-sm">${price}</p>
+                </div>
+                <p class="text-xs text-slate-500 italic">"Memproses data pesanan kamu..."</p>
+            `;
+            
+            progressFill.style.animationDuration = `3s`;
+            progressFill.classList.add('run-progress');
+
+            let timeLeft = 3;
+            footerElem.innerText = `Menyiapkan WhatsApp dalam ${timeLeft}...`;
+
+            const countdown = setInterval(() => {
+                timeLeft--;
+                if (timeLeft >= 1) footerElem.innerText = `Menyiapkan WhatsApp dalam ${timeLeft}...`;
+                else {
+                    clearInterval(countdown);
+                    footerElem.innerHTML = `
+                        <button onclick="buyViaWA('${name}', '${cat}', '${price}', '${customMsg}')" 
+                                class="btn-primary w-full py-3 rounded-xl font-bold text-white text-xs mt-2 shadow-lg shadow-blue-500/20">
+                            LANJUT KE WHATSAPP <i class="fa-solid fa-arrow-right ml-1"></i>
+                        </button>
+                        <button onclick="closeModal()" class="block w-full text-center text-[10px] text-slate-500 mt-3 font-bold uppercase">Batal</button>
+                    `;
+                }
+            }, 1000);
+        }
 
         function renderCategories() {
             navArea.classList.add('hidden');
             subTitleElem.innerText = CONFIG_STORE.header.sub;
             mainContent.className = "grid grid-cols-1 md:grid-cols-2 gap-6";
             
-            // Render semua kategori kecuali 'dev-menu' biar tersembunyi
             mainContent.innerHTML = Object.keys(CONFIG_STORE.categories)
             .filter(key => key !== 'dev-menu')
             .map((key, index) => {
@@ -225,10 +286,9 @@
             mainContent.className = "grid grid-cols-1 md:grid-cols-3 gap-6";
 
             mainContent.innerHTML = category.products.map((p, index) => {
-                // Logika tombol: Jika tipe link, buka URL. Jika tidak, buka WA order.
                 const action = p.type === "link" 
                     ? `window.open('${p.url}', '_blank')` 
-                    : `buyViaWA('${p.name}', '${category.title}', '${p.price}')`;
+                    : `confirmPurchase('${p.name}', '${category.title}', '${p.price}', '${p.msg || ""}')`;
                 const btnIcon = p.type === "link" ? "fa-arrow-up-right-from-square" : "fa-brands fa-whatsapp";
                 const btnText = p.type === "link" ? "Buka Halaman" : "Beli Sekarang";
 
@@ -252,9 +312,11 @@
             }).join('');
         }
 
-        function buyViaWA(name, cat, price) {
-            const msg = `Halo Dhikzx Store, saya mau order:\n\n📦 Kategori: *${cat}*\n🚀 Produk: *${name}*\n💰 Harga: *${price}*\n\nMohon instruksi pembayarannya.`;
+        function buyViaWA(name, cat, price, customMsg) {
+            const detailOrder = `\n\n📦 Kategori: *${cat}*\n🚀 Produk: *${name}*\n💰 Harga: *${price}*`;
+            const msg = customMsg ? `${customMsg}${detailOrder}` : `Halo Dhikzx Store, saya mau order:${detailOrder}\n\nMohon instruksi pembayarannya.`;
             window.open(`https://wa.me/${CONFIG_STORE.waNumber}?text=${encodeURIComponent(msg)}`, '_blank');
+            closeModal();
         }
     </script>
 </body>
